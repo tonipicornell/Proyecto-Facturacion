@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.HelloController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+
+  <top>
+    <MenuBar BorderPane.alignment="CENTER">
+      <menus>
+        <Menu id="fichas" mnemonicParsing="false" text="Fichas">
+          <items>
+            <Menu id="clientes" mnemonicParsing="false" text="Clientes">
+              <items>
+                <MenuItem id="crear_cliente" mnemonicParsing="false" text="Crear cliente" onAction="#handleCrearCliente"/>
+                <MenuItem id="modificar_cliente" mnemonicParsing="false" text="Modificar cliente" />
+                <MenuItem id="ver_ficha_cliente" mnemonicParsing="false" text="Ver fichas de clientes" />
+              </items>
+            </Menu>
+            <Menu id="articulos" mnemonicParsing="false" text="Artículos">
+              <items>
+                <MenuItem id="crear_articulo" mnemonicParsing="false" text="Crear artículo" />
+                <MenuItem id="modificar_articulo" mnemonicParsing="false" text="Modificar artículo" />
+                <MenuItem id="ver_ficha_articulo" mnemonicParsing="false" text="Ver fichas de artículos" />
+              </items>
+            </Menu>
+            <MenuItem id="proveedores" mnemonicParsing="false" text="Proveedores" />
+            <MenuItem id="comerciales" mnemonicParsing="false" text="Comerciales" />
+            <MenuItem id="distribuidores" mnemonicParsing="false" text="Distribuidores" />
+            <MenuItem id="trabajadores" mnemonicParsing="false" text="Trabajadores" />
+            <MenuItem id="tipos_iva" mnemonicParsing="false" text="Tipos IVA" />
+            <MenuItem id="familias" mnemonicParsing="false" text="Familias" />
+          </items>
+        </Menu>
+        <Menu id="facturas" mnemonicParsing="false" text="Facturas">
+          <items>
+            <MenuItem id="crear_factura" mnemonicParsing="false" text="Crear Factura" />
+            <MenuItem id="ver_factura" mnemonicParsing="false" text="Ver Factura" />
+          </items>
+        </Menu>
+        <Menu id="rectificativas" mnemonicParsing="false" text="Rectificativas">
+          <items>
+            <MenuItem id="crear_rectificativa" mnemonicParsing="false" text="Crear Rectificativa" />
+            <MenuItem id="ver_rectificativa" mnemonicParsing="false" text="Ver Rectificativa" />
+          </items>
+        </Menu>
+        <Menu id="listados" mnemonicParsing="false" text="Listados">
+          <items>
+            <MenuItem id="listar_informacion_cliente" mnemonicParsing="false" text="Listar información de clientes" />
+            <MenuItem id="listar_articulo" mnemonicParsing="false" text="Artículos" />
+            <MenuItem id="listar_proveedores" mnemonicParsing="false" text="Proveedores" />
+          </items>
+        </Menu>
+        <Menu id="configuracion" mnemonicParsing="false" text="Configuración">
+          <items>
+            <MenuItem id="datos_empresa" mnemonicParsing="false" text="Datos de la empresa" />
+          </items>
+        </Menu>
+        <Menu id="ayuda_usuario" mnemonicParsing="false" text="Ayuda">
+          <items>
+            <MenuItem id="manual_usuario" mnemonicParsing="false" text="Manual de usuario" />
+            <MenuItem id="acerca_de" mnemonicParsing="false" text="Acerca de" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+
+  <center>
+    <Label text="Proyecto Facturación" BorderPane.alignment="CENTER">
+      <font>
+        <Font size="50.0" />
+      </font>
+    </Label>
+  </center>
+
+  <bottom>
+    <Label text="Antonio Picornell Perdigón" BorderPane.alignment="BOTTOM_RIGHT" />
+  </bottom>
+</BorderPane>
