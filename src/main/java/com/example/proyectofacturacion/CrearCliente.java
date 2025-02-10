@@ -109,7 +109,7 @@ public class CrearCliente {
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                     statement.setString(1, nombre);
                     statement.setString(2, direccion);
-                    statement.setString(3, cp);  // Establecer CP
+                    statement.setString(3, cp);  
                     statement.setString(4, poblacion);
                     statement.setString(5, cif);
                     statement.setString(6, iban);
