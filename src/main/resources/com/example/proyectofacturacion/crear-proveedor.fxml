@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:controller="com.example.proyectofacturacion.CrearProveedor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label layoutX="13.0" layoutY="22.0" text="Crear proveedor:">
+            <font>
+                <Font size="36.0" />
+            </font>
+        </Label>
+        <Label layoutX="19.0" layoutY="92.0" prefHeight="27.0" prefWidth="62.0" text="Nombre ">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="introducir_cliente" layoutX="82.0" layoutY="92.0" prefHeight="26.0" prefWidth="190.0" promptText="Nombre del proveedor" />
+        <Label layoutX="316.0" layoutY="92.0" prefHeight="27.0" prefWidth="62.0" text="Direccion">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="direccion_cliente" layoutX="395.0" layoutY="92.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir direccion " />
+        <Label layoutX="316.0" layoutY="126.0" prefHeight="27.0" prefWidth="62.0" text="Población">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="poblacion_cliente" layoutX="395.0" layoutY="126.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir población" />
+        <Label layoutX="19.0" layoutY="126.0" prefHeight="27.0" prefWidth="62.0" text="CIF ">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="introducir_cif_cliente" layoutX="82.0" layoutY="126.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir el CIF" />
+        <Label layoutX="19.0" layoutY="159.0" prefHeight="27.0" prefWidth="62.0" text="IBAN">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="introducir_iban_cliente" layoutX="82.0" layoutY="160.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir el IBAN" />
+        <Label layoutX="19.0" layoutY="192.0" prefHeight="27.0" prefWidth="62.0" text="Teléfono">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="telefono_cliente" layoutX="82.0" layoutY="193.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir el número de teléfono" />
+        <Label layoutX="316.0" layoutY="159.0" prefHeight="27.0" prefWidth="62.0" text="Provincia">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="provincia_cliente" layoutX="395.0" layoutY="160.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir provincia" />
+        <Label layoutX="316.0" layoutY="192.0" prefHeight="27.0" prefWidth="62.0" text="País">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="pais_cliente" layoutX="395.0" layoutY="193.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir el país" />
+        <Label layoutX="19.0" layoutY="225.0" prefHeight="27.0" prefWidth="62.0" text="Email">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="email_cliente" layoutX="82.0" layoutY="226.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir el correo electrónico" />
+        <Label layoutX="316.0" layoutY="225.0" prefHeight="27.0" prefWidth="62.0" text="CP">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField id="cp_cliente" layoutX="395.0" layoutY="226.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir el código postal" />
+        <Label layoutX="103.0" layoutY="256.0" prefHeight="27.0" prefWidth="98.0" text="Observaciones">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextArea id="observaciones_cliente" layoutX="25.0" layoutY="289.0" prefHeight="99.0" prefWidth="254.0" promptText="Introducir las observaciones al cliente" />
+        <Button id="boton_crear_cliente" layoutX="482.0" layoutY="360.0" mnemonicParsing="false" text="Crear proveedor" onAction="#crearProveedor"/>
+    </children>
+</AnchorPane>

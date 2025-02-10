@@ -29,7 +29,15 @@
                 <MenuItem id="ver_ficha_articulo" mnemonicParsing="false" text="Ver fichas de artículos" />
               </items>
             </Menu>
-            <MenuItem id="proveedores" mnemonicParsing="false" text="Proveedores" />
+
+            <Menu id="proveedores" mnemonicParsing="false" text="Proveedores">
+              <items>
+                <MenuItem id="crear_proveedor" mnemonicParsing="false" text="Crear proveedor" onAction="#handleCrearProveedor"/>
+                <MenuItem id="modificar_proveedor" mnemonicParsing="false" text="Modificar proveedor" />
+                <MenuItem id="ver_ficha_proveedor" mnemonicParsing="false" text="Ver fichas de proveedores" />
+              </items>
+            </Menu>
+
             <MenuItem id="comerciales" mnemonicParsing="false" text="Comerciales" />
             <MenuItem id="distribuidores" mnemonicParsing="false" text="Distribuidores" />
             <MenuItem id="trabajadores" mnemonicParsing="false" text="Trabajadores" />
