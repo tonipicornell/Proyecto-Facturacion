@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane  fx:controller="com.example.proyectofacturacion.CrearArticulo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label layoutX="13.0" layoutY="22.0" text="Crear artículo:">
+            <font>
+                <Font size="36.0" />
+            </font>
+        </Label>
+        <Button id="boton_crear_artículo" layoutX="494.0" layoutY="360.0" mnemonicParsing="false" text="Crear artículo" />
+        <Label layoutX="29.0" layoutY="89.0" text="Código artículo" />
+        <Label layoutX="29.0" layoutY="122.0" text="Código de barras" />
+        <TextField id="codigo_articulo" layoutX="143.0" layoutY="85.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el código del artículo" />
+        <TextField id="codigo_barras_articulo" layoutX="143.0" layoutY="118.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el código de barras" />
+        <Label layoutX="29.0" layoutY="155.0" text="Descripción" />
+        <TextField id="descripcion_articulo" layoutX="143.0" layoutY="151.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir una descripción" />
+        <Label layoutX="356.0" layoutY="89.0" text="Coste" />
+        <TextField id="coste_articulo" layoutX="404.0" layoutY="85.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el coste" />
+        <Label layoutX="355.0" layoutY="155.0" text="Precio" />
+        <TextField id="precio_venta_articulo" layoutX="404.0" layoutY="151.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el precio de venta" />
+        <Label layoutX="355.0" layoutY="191.0" text="Stock" />
+        <TextField id="stock_articulo" layoutX="404.0" layoutY="187.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el stock" />
+        <Label layoutX="29.0" layoutY="191.0" text="Familia del artículo" />
+        <TextField id="margen_comercial_articulo" layoutX="404.0" layoutY="118.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el margen comercial" />
+        <Label layoutX="356.0" layoutY="122.0" text="Margen" />
+        <ComboBox id="familia_articulo" layoutX="143.0" layoutY="188.0" prefHeight="26.0" prefWidth="180.0" />
+        <Label layoutX="29.0" layoutY="227.0" text="Proveedor" />
+        <ComboBox id="proveedor_articulo" layoutX="143.0" layoutY="222.0" prefHeight="26.0" prefWidth="180.0" />
+        <Label layoutX="31.0" layoutY="308.0" text="Observaciones" />
+        <TextArea id="observaciones_articulo" layoutX="143.0" layoutY="261.0" prefHeight="111.0" prefWidth="180.0" promptText="Introducir las observaciones del artículo" />
+    </children>
+</AnchorPane>
