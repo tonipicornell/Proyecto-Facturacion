@@ -19,7 +19,7 @@
               <items>
                 <MenuItem id="crear_cliente" mnemonicParsing="false" text="Crear cliente" onAction="#handleCrearCliente"/>
                 <MenuItem id="modificar_cliente" mnemonicParsing="false" text="Modificar cliente" />
-                <MenuItem id="ver_ficha_cliente" mnemonicParsing="false" text="Ver fichas de clientes" />
+                <MenuItem id="ver_ficha_cliente" mnemonicParsing="false" text="Ver fichas de clientes" onAction="#handleFichaCliente"/>
               </items>
             </Menu>
             <Menu id="articulos" mnemonicParsing="false" text="Artículos">

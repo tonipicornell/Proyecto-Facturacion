@@ -97,6 +97,28 @@ public class HelloController {
         }
     }
 
+    @FXML
+    private void handleFichaCliente(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ficha-cliente.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ficha Clientes ");
+            stage.setScene(new Scene(root, 600, 400));
+
+            stage.setMaximized(true);
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Método para cerrar todas las ventanas secundarias
     public void closeAllSecondaryWindows() {
         for (Stage stage : secondaryStages) {
