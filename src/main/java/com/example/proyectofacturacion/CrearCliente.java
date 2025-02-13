@@ -17,7 +17,7 @@ public class CrearCliente {
     @FXML
     private TextField direccionCliente;
     @FXML
-    private TextField cpCliente;  // Campo CP agregado
+    private TextField cpCliente;
     @FXML
     private TextField poblacionCliente;
     @FXML
@@ -37,9 +37,28 @@ public class CrearCliente {
     @FXML
     private TextField descuentoCliente;
     @FXML
-    private TextArea observacionesCliente;  // TextArea agregado
+    private TextArea observacionesCliente;
     @FXML
     private Button botonCrearCliente;
+
+    @FXML
+    private void initialize() {
+        agregarValidacionNumerica(riesgoCliente, "Riesgo");
+        agregarValidacionNumerica(descuentoCliente, "Descuento");
+    }
+
+    private void agregarValidacionNumerica(TextField textField, String campo) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*(\\.\\d*)?")) { // Solo permite números y punto decimal
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Valor no válido");
+                alert.setHeaderText(null);
+                alert.setContentText("El campo '" + campo + "' debe ser un número válido.");
+                alert.showAndWait();
+                textField.setText(oldValue); // Revertir al valor anterior
+            }
+        });
+    }
 
     @FXML
     private void crearCliente() {
@@ -48,114 +67,89 @@ public class CrearCliente {
                 introducirIbanCliente.getText().isEmpty() || telefonoCliente.getText().isEmpty() ||
                 provinciaCliente.getText().isEmpty() || paisCliente.getText().isEmpty() ||
                 emailCliente.getText().isEmpty() || riesgoCliente.getText().isEmpty() ||
-                descuentoCliente.getText().isEmpty() || cpCliente.getText().isEmpty()) { // Verificar CP
+                descuentoCliente.getText().isEmpty() || cpCliente.getText().isEmpty()) {
 
-            // Mostrar un aviso si algún campo está vacío
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Campo obligatorio");
             alert.setHeaderText(null);
             alert.setContentText("Por favor, complete todos los campos.");
             alert.showAndWait();
-        } else {
-            // Validar que riesgoCliente y descuentoCliente sean números válidos
-            double riesgo = 0.0;
-            double descuento = 0.0;
+            return;
+        }
 
-            try {
-                riesgo = Double.parseDouble(riesgoCliente.getText());
-            } catch (NumberFormatException e) {
-                // Mostrar un warning si el valor de riesgo no es un número
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Valor no válido");
-                alert.setHeaderText(null);
-                alert.setContentText("El campo 'Riesgo' debe ser un número válido.");
-                alert.showAndWait();
-                return; // Salir del método si el valor no es válido
-            }
+        double riesgo;
+        double descuento;
 
-            try {
-                descuento = Double.parseDouble(descuentoCliente.getText());
-            } catch (NumberFormatException e) {
-                // Mostrar un warning si el valor de descuento no es un número
-                Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Valor no válido");
-                alert.setHeaderText(null);
-                alert.setContentText("El campo 'Descuento' debe ser un número válido.");
-                alert.showAndWait();
-                return; // Salir del método si el valor no es válido
-            }
+        try {
+            riesgo = Double.parseDouble(riesgoCliente.getText());
+            descuento = Double.parseDouble(descuentoCliente.getText());
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Valor no válido");
+            alert.setHeaderText(null);
+            alert.setContentText("Los campos 'Riesgo' y 'Descuento' deben ser números válidos.");
+            alert.showAndWait();
+            return;
+        }
 
-            // Si todo está bien, continuar con la creación del cliente
-            String nombre = introducirCliente.getText();
-            String direccion = direccionCliente.getText();
-            String cp = cpCliente.getText();  // Obtener CP
-            String poblacion = poblacionCliente.getText();
-            String cif = introducirCifCliente.getText();
-            String iban = introducirIbanCliente.getText();
-            String telefono = telefonoCliente.getText();
-            String provincia = provinciaCliente.getText();
-            String pais = paisCliente.getText();
-            String email = emailCliente.getText();
-            String observaciones = observacionesCliente.getText();
+        String nombre = introducirCliente.getText();
+        String direccion = direccionCliente.getText();
+        String cp = cpCliente.getText();
+        String poblacion = poblacionCliente.getText();
+        String cif = introducirCifCliente.getText();
+        String iban = introducirIbanCliente.getText();
+        String telefono = telefonoCliente.getText();
+        String provincia = provinciaCliente.getText();
+        String pais = paisCliente.getText();
+        String email = emailCliente.getText();
+        String observaciones = observacionesCliente.getText();
 
-            // Realizar la inserción en la base de datos
-            try (Connection connection = DataBaseConnected.getConnection()) {
-                String query = "INSERT INTO clientes (nombreCliente, direccionCliente, cpCliente, poblacionCliente, " +
-                        "cifCliente, ibanCliente, telCliente, provinciaCliente, paisCliente, emailCliente, " +
-                        "riesgoCliente, descuentoCliente, observacionesCliente) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DataBaseConnected.getConnection()) {
+            String query = "INSERT INTO clientes (nombreCliente, direccionCliente, cpCliente, poblacionCliente, " +
+                    "cifCliente, ibanCliente, telCliente, provinciaCliente, paisCliente, emailCliente, " +
+                    "riesgoCliente, descuentoCliente, observacionesCliente) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                // Usar PreparedStatement para evitar inyecciones de SQL
-                try (PreparedStatement statement = connection.prepareStatement(query)) {
-                    statement.setString(1, nombre);
-                    statement.setString(2, direccion);
-                    statement.setString(3, cp);  
-                    statement.setString(4, poblacion);
-                    statement.setString(5, cif);
-                    statement.setString(6, iban);
-                    statement.setString(7, telefono);
-                    statement.setString(8, provincia);
-                    statement.setString(9, pais);
-                    statement.setString(10, email);
-                    statement.setDouble(11, riesgo);
-                    statement.setDouble(12, descuento);
-                    statement.setString(13, observaciones);
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, nombre);
+                statement.setString(2, direccion);
+                statement.setString(3, cp);
+                statement.setString(4, poblacion);
+                statement.setString(5, cif);
+                statement.setString(6, iban);
+                statement.setString(7, telefono);
+                statement.setString(8, provincia);
+                statement.setString(9, pais);
+                statement.setString(10, email);
+                statement.setDouble(11, riesgo);
+                statement.setDouble(12, descuento);
+                statement.setString(13, observaciones);
 
-                    // Ejecutar la inserción
-                    int rowsAffected = statement.executeUpdate();
-                    if (rowsAffected > 0) {
-                        // Cliente creado exitosamente
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("Éxito");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Cliente creado exitosamente.");
-                        alert.showAndWait();
-
-                        // Limpiar los campos del formulario
-                        limpiarCampos();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    // Manejo de errores si no se pudo insertar
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Error");
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Éxito");
                     alert.setHeaderText(null);
-                    alert.setContentText("No se pudo crear el cliente. Error: " + e.getMessage());
+                    alert.setContentText("Cliente creado exitosamente.");
                     alert.showAndWait();
+                    limpiarCampos();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
-                // Manejo de errores si no se pudo conectar
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("No se pudo conectar a la base de datos. Error: " + e.getMessage());
-                alert.showAndWait();
+                mostrarError("No se pudo crear el cliente. Error: " + e.getMessage());
             }
+        } catch (SQLException e) {
+            mostrarError("No se pudo conectar a la base de datos. Error: " + e.getMessage());
         }
     }
 
-    // Método para limpiar los campos
+    private void mostrarError(String mensaje) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
     private void limpiarCampos() {
         introducirCliente.clear();
         direccionCliente.clear();

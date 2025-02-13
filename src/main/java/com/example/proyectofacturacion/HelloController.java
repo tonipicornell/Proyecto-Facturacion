@@ -74,4 +74,26 @@ public class HelloController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleTipoIVA(ActionEvent event) {
+        try {
+            // Cargar el archivo FXML de la vista Crear Cliente
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("tipo-IVA.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena y ventana
+            Stage stage = new Stage();
+            stage.setTitle("Consultar Tipo IVA");
+            stage.setScene(new Scene(root, 600, 400));
+
+            // No se puede expandir la pantalla:
+            stage.setResizable(false);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
