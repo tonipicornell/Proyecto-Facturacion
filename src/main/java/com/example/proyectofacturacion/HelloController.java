@@ -119,6 +119,27 @@ public class HelloController {
         }
     }
 
+    @FXML
+    private void handleCrearFactura(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("crear-factura.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Crear Factura ");
+            stage.setScene(new Scene(root, 770, 750));
+
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Método para cerrar todas las ventanas secundarias
     public void closeAllSecondaryWindows() {
         for (Stage stage : secondaryStages) {

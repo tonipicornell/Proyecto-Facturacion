@@ -47,7 +47,7 @@
         </Menu>
         <Menu id="facturas" mnemonicParsing="false" text="Facturas">
           <items>
-            <MenuItem id="crear_factura" mnemonicParsing="false" text="Crear Factura" />
+            <MenuItem id="crear_factura" mnemonicParsing="false" text="Crear Factura" onAction="#handleCrearFactura"/>
             <MenuItem id="ver_factura" mnemonicParsing="false" text="Ver Factura" />
           </items>
         </Menu>

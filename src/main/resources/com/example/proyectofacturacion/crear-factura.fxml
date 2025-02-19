@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <!-- Encabezado de la factura -->
+        <HBox alignment="CENTER">
+            <Label text="FACTURA CLIENTE" style="-fx-font-weight: bold;">
+                <font>
+                    <Font size="24.0"/>
+                </font>
+            </Label>
+        </HBox>
+
+        <!-- Información básica de la factura -->
+        <GridPane hgap="10" vgap="5">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150.0"/>
+                <ColumnConstraints minWidth="200.0"/>
+                <ColumnConstraints minWidth="150.0"/>
+                <ColumnConstraints minWidth="200.0"/>
+            </columnConstraints>
+
+            <!-- Primera fila -->
+            <Label text="Número Factura:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="numeroFacturaClienteField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Fecha Factura:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <DatePicker fx:id="fechaFacturaClientePicker" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+            <!-- Segunda fila -->
+            <Label text="Cliente:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="clienteComboBox" prefWidth="200.0" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Forma de Pago:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <ComboBox fx:id="formaCobroComboBox" prefWidth="200.0" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+        </GridPane>
+
+        <!-- Tabla de productos -->
+        <TitledPane text="Detalles de Productos" expanded="true">
+            <VBox spacing="10">
+                <!-- Selección de producto -->
+                <GridPane hgap="10" vgap="5">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="100.0"/>
+                        <ColumnConstraints minWidth="200.0"/>
+                        <ColumnConstraints minWidth="100.0"/>
+                        <ColumnConstraints minWidth="100.0"/>
+                    </columnConstraints>
+
+                    <Label text="Producto:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="productoComboBox" promptText="Seleccione un producto"
+                              GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="200.0"/>
+
+                    <Label text="Cantidad:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <Spinner fx:id="cantidadSpinner" min="1" max="999" initialValue="1"
+                             GridPane.rowIndex="0" GridPane.columnIndex="3" editable="true"/>
+
+                    <Button text="Agregar a Factura" fx:id="agregarAFacturaBtn"
+                            GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                </GridPane>
+
+                <TableView fx:id="tablaProductos" prefHeight="200.0">
+                    <columns>
+                        <TableColumn fx:id="codigoColumn" text="Código" prefWidth="100.0"/>
+                        <TableColumn fx:id="descripcionColumn" text="Descripción" prefWidth="200.0"/>
+                        <TableColumn fx:id="cantidadColumn" text="Cantidad" prefWidth="100.0"/>
+                        <TableColumn fx:id="precioColumn" text="Precio Unitario" prefWidth="100.0"/>
+                        <TableColumn fx:id="subtotalColumn" text="Subtotal" prefWidth="100.0"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Eliminar Producto" fx:id="eliminarProductoBtn"/>
+                </HBox>
+            </VBox>
+        </TitledPane>
+
+        <!-- Totales y datos adicionales -->
+        <GridPane hgap="10" vgap="5">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150.0"/>
+                <ColumnConstraints minWidth="200.0"/>
+                <ColumnConstraints minWidth="150.0"/>
+                <ColumnConstraints minWidth="200.0"/>
+            </columnConstraints>
+
+            <!-- Primera fila -->
+            <Label text="Base Imponible:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="baseImponibleField" editable="false" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="IVA (21%):" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <TextField fx:id="ivaField" editable="false" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+            <!-- Segunda fila -->
+            <Label text="Total Factura:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="totalFacturaField" editable="false" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       style="-fx-font-weight: bold;"/>
+
+            <Label text="Estado Cobro:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <CheckBox fx:id="cobradaFacturaCheck" text="Cobrada" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+            <!-- Tercera fila -->
+            <Label text="Fecha Cobro:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+            <DatePicker fx:id="fechaCobroFacturaPicker" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+            <!-- Cuarta fila - Observaciones -->
+            <Label text="Observaciones:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <TextArea fx:id="observacionesArea" prefRowCount="3" wrapText="true"
+                      GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+        </GridPane>
+
+        <!-- Botones de acción -->
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="Generar QR" fx:id="generarQRBtn"/>
+            <Button text="Guardar Factura" fx:id="guardarBtn"/>
+            <Button text="Imprimir" fx:id="imprimirBtn"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
