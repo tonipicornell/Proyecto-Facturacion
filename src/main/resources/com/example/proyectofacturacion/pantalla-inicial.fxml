@@ -18,7 +18,7 @@
             <Menu id="clientes" mnemonicParsing="false" text="Clientes">
               <items>
                 <MenuItem id="crear_cliente" mnemonicParsing="false" text="Crear cliente" onAction="#handleCrearCliente"/>
-                <MenuItem id="modificar_cliente" mnemonicParsing="false" text="Modificar cliente" />
+                <MenuItem id="modificar_cliente" mnemonicParsing="false" text="Modificar cliente" onAction="#handleModificarCliente"/>
                 <MenuItem id="ver_ficha_cliente" mnemonicParsing="false" text="Ver fichas de clientes" onAction="#handleFichaCliente"/>
               </items>
             </Menu>

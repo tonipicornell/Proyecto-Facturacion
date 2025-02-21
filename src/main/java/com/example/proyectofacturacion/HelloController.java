@@ -78,6 +78,27 @@ public class HelloController {
     }
 
     @FXML
+    private void handleModificarCliente(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modificar-cliente.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Crear articulo");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
     private void handleTipoIVA(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("tipo-IVA.fxml"));
