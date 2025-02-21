@@ -20,7 +20,7 @@
 
 <AnchorPane prefHeight="705.0" prefWidth="772.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.CrearFactura">
     <VBox spacing="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-        <!-- Encabezado -->
+
         <HBox alignment="CENTER">
             <Label style="-fx-font-weight: bold;" text="FACTURA CLIENTE">
                 <font>
@@ -29,7 +29,6 @@
             </Label>
         </HBox>
 
-        <!-- Datos básicos de la factura -->
         <GridPane hgap="10" vgap="5">
             <columnConstraints>
                 <ColumnConstraints minWidth="150.0" />
@@ -42,7 +41,6 @@
                 <RowConstraints />
             </rowConstraints>
 
-            <!-- Primera fila -->
             <Label text="Número Factura:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="numeroFacturaClienteField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
@@ -57,9 +55,7 @@
             <ComboBox fx:id="formaCobroComboBox" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
         </GridPane>
 
-        <!-- Tabla de artículos -->
         <VBox spacing="10">
-            <!-- Selector de artículos -->
             <GridPane hgap="10" vgap="5">
                 <columnConstraints>
                     <ColumnConstraints minWidth="100.0" />
@@ -81,7 +77,6 @@
                 <Button fx:id="agregarArticuloBtn" text="Agregar Artículo" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             </GridPane>
 
-            <!-- Tabla de artículos -->
             <TableView fx:id="tablaArticulos" prefHeight="200.0">
                 <columns>
                     <TableColumn fx:id="codigoArticuloColumn" prefWidth="100.0" text="Código" />
@@ -99,7 +94,6 @@
             </HBox>
         </VBox>
 
-        <!-- Totales y datos adicionales -->
         <GridPane hgap="10" vgap="5">
             <columnConstraints>
                 <ColumnConstraints minWidth="150.0" />
@@ -114,30 +108,25 @@
                 <RowConstraints />
             </rowConstraints>
 
-            <!-- Primera fila -->
             <Label text="Base Imponible:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="baseImponibleField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
             <Label text="IVA:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
             <TextField fx:id="ivaField" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="0" />
 
-            <!-- Segunda fila -->
             <Label style="-fx-font-weight: bold;" text="Total Factura:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <TextField fx:id="totalFacturaField" editable="false" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
             <Label text="Cobrada:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <CheckBox fx:id="cobradaFacturaCheck" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 
-            <!-- Tercera fila -->
             <Label text="Fecha Cobro:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <DatePicker fx:id="fechaCobroFacturaPicker" GridPane.columnIndex="3" GridPane.rowIndex="2" />
 
-            <!-- Cuarta fila -->
             <Label text="Observaciones:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <TextArea fx:id="observacionesField" prefRowCount="3" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
         </GridPane>
 
-        <!-- Botones de acción -->
         <HBox alignment="CENTER_RIGHT" spacing="10">
             <Button fx:id="generarQRBtn" text="Generar QR" />
             <Button fx:id="guardarFacturaBtn" text="Guardar Factura" />
