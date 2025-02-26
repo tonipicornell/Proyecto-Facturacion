@@ -84,7 +84,27 @@ public class HelloController {
             Parent root = loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("Crear articulo");
+            stage.setTitle("Modificar Cliente");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleModificarProveedor(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modificar-proveedor.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Modificar Proveedor");
             stage.setScene(new Scene(root, 600, 400));
             stage.setResizable(false);
 
