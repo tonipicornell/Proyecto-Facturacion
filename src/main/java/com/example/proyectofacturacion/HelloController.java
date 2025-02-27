@@ -117,6 +117,25 @@ public class HelloController {
         }
     }
 
+    @FXML
+    private void handleModificarArticulo(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("modificar-articulo.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Modificar Articulo");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void handleTipoIVA(ActionEvent event) {
