@@ -1,6 +1,7 @@
 package com.example.proyectofacturacion;
 
 public class Proveedor {
+    private int idProveedor;
     private String nombreProveedor;
     private String direccionProveedor;
     private String cpProveedor;
@@ -32,7 +33,14 @@ public class Proveedor {
         this.observacionesProveedor = observacionesProveedor;
     }
 
-    // Getters y Setters
+    // Getters y setters
+    public int getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(int idProveedor) {
+        this.idProveedor = idProveedor;
+    }
 
     public String getNombreProveedor() {
         return nombreProveedor;

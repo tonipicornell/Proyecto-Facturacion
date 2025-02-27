@@ -7,13 +7,13 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.DetalleCliente"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.DetalleProveedor"
             prefWidth="700" prefHeight="650" style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);">
     <children>
         <!-- Panel superior con título -->
         <VBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" spacing="10"
               style="-fx-background-color: #3498db; -fx-padding: 15 20 15 20;">
-            <Label text="Ficha Detallada del Cliente" textFill="WHITE">
+            <Label text="Ficha Detallada del Proveedor" textFill="WHITE">
                 <font>
                     <Font name="System Bold" size="22"/>
                 </font>
@@ -21,14 +21,14 @@
                     <DropShadow radius="2" offsetX="1" offsetY="1" color="#00000077"/>
                 </effect>
             </Label>
-            <Label text="Visualice y modifique la información completa del cliente" textFill="WHITE">
+            <Label text="Visualice y modifique la información completa del proveedor" textFill="WHITE">
                 <font>
                     <Font size="14"/>
                 </font>
             </Label>
         </VBox>
 
-        <!-- Panel principal con datos del cliente -->
+        <!-- Panel principal con datos del proveedor -->
         <ScrollPane AnchorPane.topAnchor="90" AnchorPane.bottomAnchor="80" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
                     fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
             <content>
@@ -79,79 +79,73 @@
                     <Label text="Correo electrónico" GridPane.columnIndex="2" GridPane.rowIndex="7"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
+                    <Label text="Contacto:" GridPane.columnIndex="0" GridPane.rowIndex="8" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="contactoField" GridPane.columnIndex="1" GridPane.rowIndex="8"
+                               style="-fx-background-radius: 3;"/>
+                    <Label text="Persona de contacto" GridPane.columnIndex="2" GridPane.rowIndex="8"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
                     <!-- Sección: Dirección -->
-                    <Label text="Dirección" GridPane.columnIndex="0" GridPane.rowIndex="8"
+                    <Label text="Dirección" GridPane.columnIndex="0" GridPane.rowIndex="9"
                            GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
 
-                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.columnSpan="3"
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.columnSpan="3"
                                style="-fx-background-color: #3498db;"/>
 
-                    <Label text="Dirección:" GridPane.columnIndex="0" GridPane.rowIndex="10" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="direccionField" GridPane.columnIndex="1" GridPane.rowIndex="10"
+                    <Label text="Dirección:" GridPane.columnIndex="0" GridPane.rowIndex="11" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="direccionField" GridPane.columnIndex="1" GridPane.rowIndex="11"
                                style="-fx-background-radius: 3;"/>
-                    <Label text="Dirección" GridPane.columnIndex="2" GridPane.rowIndex="10"
+                    <Label text="Dirección" GridPane.columnIndex="2" GridPane.rowIndex="11"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
-                    <Label text="C.P.:" GridPane.columnIndex="0" GridPane.rowIndex="11" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="cpField" GridPane.columnIndex="1" GridPane.rowIndex="11"
+                    <Label text="C.P.:" GridPane.columnIndex="0" GridPane.rowIndex="12" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="cpField" GridPane.columnIndex="1" GridPane.rowIndex="12"
                                style="-fx-background-radius: 3;"/>
-                    <Label text="Código Postal" GridPane.columnIndex="2" GridPane.rowIndex="11"
+                    <Label text="Código Postal" GridPane.columnIndex="2" GridPane.rowIndex="12"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
-                    <Label text="Población:" GridPane.columnIndex="0" GridPane.rowIndex="12" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="poblacionField" GridPane.columnIndex="1" GridPane.rowIndex="12"
+                    <Label text="Población:" GridPane.columnIndex="0" GridPane.rowIndex="13" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="poblacionField" GridPane.columnIndex="1" GridPane.rowIndex="13"
                                style="-fx-background-radius: 3;"/>
-                    <Label text="Ciudad" GridPane.columnIndex="2" GridPane.rowIndex="12"
+                    <Label text="Ciudad" GridPane.columnIndex="2" GridPane.rowIndex="13"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
-                    <Label text="Provincia:" GridPane.columnIndex="0" GridPane.rowIndex="13" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="provinciaField" GridPane.columnIndex="1" GridPane.rowIndex="13"
+                    <Label text="Provincia:" GridPane.columnIndex="0" GridPane.rowIndex="14" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="provinciaField" GridPane.columnIndex="1" GridPane.rowIndex="14"
                                style="-fx-background-radius: 3;"/>
-                    <Label text="Provincia" GridPane.columnIndex="2" GridPane.rowIndex="13"
+                    <Label text="Provincia" GridPane.columnIndex="2" GridPane.rowIndex="14"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
-                    <Label text="País:" GridPane.columnIndex="0" GridPane.rowIndex="14" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="paisField" GridPane.columnIndex="1" GridPane.rowIndex="14"
+                    <Label text="País:" GridPane.columnIndex="0" GridPane.rowIndex="15" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="paisField" GridPane.columnIndex="1" GridPane.rowIndex="15"
                                style="-fx-background-radius: 3;"/>
-                    <Label text="País" GridPane.columnIndex="2" GridPane.rowIndex="14"
+                    <Label text="País" GridPane.columnIndex="2" GridPane.rowIndex="15"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
                     <!-- Sección: Datos Comerciales -->
-                    <Label text="Datos Comerciales" GridPane.columnIndex="0" GridPane.rowIndex="15"
+                    <Label text="Datos Comerciales" GridPane.columnIndex="0" GridPane.rowIndex="16"
                            GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
 
-                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="16" GridPane.columnSpan="3"
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="17" GridPane.columnSpan="3"
                                style="-fx-background-color: #3498db;"/>
 
-                    <Label text="IBAN:" GridPane.columnIndex="0" GridPane.rowIndex="17" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="ibanField" GridPane.columnIndex="1" GridPane.rowIndex="17"
+                    <Label text="IBAN:" GridPane.columnIndex="0" GridPane.rowIndex="18" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="ibanField" GridPane.columnIndex="1" GridPane.rowIndex="18"
                                style="-fx-background-radius: 3;"/>
-                    <Label text="IBAN" GridPane.columnIndex="2" GridPane.rowIndex="17"
-                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
-
-                    <Label text="Riesgo:" GridPane.columnIndex="0" GridPane.rowIndex="18" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="riesgoField" GridPane.columnIndex="1" GridPane.rowIndex="18"
-                               style="-fx-background-radius: 3;"/>
-                    <Label text="Riesgo" GridPane.columnIndex="2" GridPane.rowIndex="18"
-                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
-
-                    <Label text="Descuento:" GridPane.columnIndex="0" GridPane.rowIndex="19" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="descuentoField" GridPane.columnIndex="1" GridPane.rowIndex="19"
-                               style="-fx-background-radius: 3;"/>
-                    <Label text="Descuento" GridPane.columnIndex="2" GridPane.rowIndex="19"
+                    <Label text="IBAN" GridPane.columnIndex="2" GridPane.rowIndex="18"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
                     <!-- Sección: Observaciones -->
-                    <Label text="Observaciones" GridPane.columnIndex="0" GridPane.rowIndex="20"
+                    <Label text="Observaciones" GridPane.columnIndex="0" GridPane.rowIndex="19"
                            GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
 
-                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="21" GridPane.columnSpan="3"
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="20" GridPane.columnSpan="3"
                                style="-fx-background-color: #3498db;"/>
 
-                    <TextArea fx:id="observacionesArea" GridPane.columnIndex="0" GridPane.rowIndex="22"
+                    <TextArea fx:id="observacionesArea" GridPane.columnIndex="0" GridPane.rowIndex="21"
                               GridPane.columnSpan="2" prefHeight="100" wrapText="true"
                               style="-fx-background-radius: 3;"/>
-                    <Label text="Observaciones" GridPane.columnIndex="2" GridPane.rowIndex="22"
+                    <Label text="Observaciones" GridPane.columnIndex="2" GridPane.rowIndex="21"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
                     <columnConstraints>

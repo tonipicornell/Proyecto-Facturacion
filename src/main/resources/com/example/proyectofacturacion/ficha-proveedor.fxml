@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:controller="com.example.proyectofacturacion.FichaProveedor" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.6">
-    <TableView fx:id="tableView" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
-        <columns>
-            <TableColumn fx:id="nombre_proveedor" prefWidth="120" text="Nombre"/>
-            <TableColumn fx:id="cif_proveedor" prefWidth="120" text="CIF"/>
-            <TableColumn fx:id="direccion_proveedor" prefWidth="150" text="Dirección"/>
-            <TableColumn fx:id="cp_proveedor" prefWidth="100" text="Código Postal"/>
-            <TableColumn fx:id="poblacion_proveedor" prefWidth="120" text="Población"/>
-            <TableColumn fx:id="provincia_proveedor" prefWidth="120" text="Provincia"/>
-            <TableColumn fx:id="pais_proveedor" prefWidth="100" text="País"/>
-            <TableColumn fx:id="telefono_proveedor" prefWidth="120" text="Teléfono"/>
-            <TableColumn fx:id="email_proveedor" prefWidth="150" text="Email"/>
-            <TableColumn fx:id="iban_proveedor" prefWidth="150" text="IBAN"/>
-            <TableColumn fx:id="contacto_proveedor" prefWidth="120" text="Contacto"/>
-            <TableColumn fx:id="observaciones_proveedor" prefWidth="200" text="Observaciones"/>
-        </columns>
-    </TableView>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.FichaProveedor">
+    <children>
+        <!-- Título -->
+        <Label text="Gestión de Proveedores" layoutX="20" layoutY="20" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+        <!-- Barra de búsqueda -->
+        <HBox layoutX="20" layoutY="50" spacing="10">
+            <Label text="Buscar:" style="-fx-font-weight: bold;">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+            </Label>
+            <TextField fx:id="searchField" promptText="Ingrese CIF, nombre, email o teléfono" prefWidth="300" onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="searchTypeCombo" prefWidth="120"/>
+            <Button text="Buscar" fx:id="searchButton" onAction="#handleSearchButton" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+            <Button text="Limpiar" fx:id="clearButton" onAction="#handleClearSearch" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+        </HBox>
+
+        <!-- Tabla de proveedores -->
+        <TableView fx:id="tableView" layoutX="20" layoutY="100" prefWidth="600" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="nombre_proveedor" text="Nombre" prefWidth="150"/>
+                <TableColumn fx:id="cif_proveedor" text="CIF" prefWidth="120"/>
+                <TableColumn fx:id="email_proveedor" text="Email" prefWidth="180"/>
+                <TableColumn fx:id="telefono_proveedor" text="Teléfono" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <!-- Botón para abrir el detalle del proveedor -->
+        <Button fx:id="verDetalleButton" text="Ver Detalle" layoutX="520" layoutY="420"
+                onAction="#handleVerDetalle"
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;" />
+    </children>
 </AnchorPane>

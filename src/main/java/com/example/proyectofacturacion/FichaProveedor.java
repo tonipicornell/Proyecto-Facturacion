@@ -3,14 +3,20 @@ package com.example.proyectofacturacion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.function.Predicate;
 
 public class FichaProveedor {
     @FXML
@@ -20,25 +26,15 @@ public class FichaProveedor {
     @FXML
     private TableColumn<Proveedor, String> cif_proveedor;
     @FXML
-    private TableColumn<Proveedor, String> direccion_proveedor;
-    @FXML
-    private TableColumn<Proveedor, String> cp_proveedor;
-    @FXML
-    private TableColumn<Proveedor, String> poblacion_proveedor;
-    @FXML
-    private TableColumn<Proveedor, String> provincia_proveedor;
-    @FXML
-    private TableColumn<Proveedor, String> pais_proveedor;
+    private TableColumn<Proveedor, String> email_proveedor;
     @FXML
     private TableColumn<Proveedor, String> telefono_proveedor;
     @FXML
-    private TableColumn<Proveedor, String> email_proveedor;
+    private TextField searchField;
     @FXML
-    private TableColumn<Proveedor, String> iban_proveedor;
+    private ComboBox<String> searchTypeCombo;
     @FXML
-    private TableColumn<Proveedor, String> contacto_proveedor;
-    @FXML
-    private TableColumn<Proveedor, String> observaciones_proveedor;
+    private Button verDetalleButton;
 
     private ObservableList<Proveedor> proveedoresList = FXCollections.observableArrayList();
 
@@ -47,22 +43,80 @@ public class FichaProveedor {
         // Configurar las columnas
         nombre_proveedor.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor"));
         cif_proveedor.setCellValueFactory(new PropertyValueFactory<>("cifProveedor"));
-        direccion_proveedor.setCellValueFactory(new PropertyValueFactory<>("direccionProveedor"));
-        cp_proveedor.setCellValueFactory(new PropertyValueFactory<>("cpProveedor"));
-        poblacion_proveedor.setCellValueFactory(new PropertyValueFactory<>("poblacionProveedor"));
-        provincia_proveedor.setCellValueFactory(new PropertyValueFactory<>("provinciaProveedor"));
-        pais_proveedor.setCellValueFactory(new PropertyValueFactory<>("paisProveedor"));
-        telefono_proveedor.setCellValueFactory(new PropertyValueFactory<>("telefonoProveedor"));
         email_proveedor.setCellValueFactory(new PropertyValueFactory<>("emailProveedor"));
-        iban_proveedor.setCellValueFactory(new PropertyValueFactory<>("ibanProveedor"));
-        contacto_proveedor.setCellValueFactory(new PropertyValueFactory<>("contactoProveedor"));
-        observaciones_proveedor.setCellValueFactory(new PropertyValueFactory<>("observacionesProveedor"));
+        telefono_proveedor.setCellValueFactory(new PropertyValueFactory<>("telefonoProveedor"));
+
+        // Inicializar ComboBox
+        searchTypeCombo.setItems(FXCollections.observableArrayList("Todos", "CIF", "Nombre", "Email", "Teléfono"));
+        searchTypeCombo.setValue("Todos");
 
         // Cargar los datos
         cargarDatos();
+
+        // Deshabilitar el botón de detalle hasta que se seleccione un proveedor
+        verDetalleButton.setDisable(true);
+
+        // Escuchar cambios en la selección de la tabla
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            verDetalleButton.setDisable(newSelection == null);
+        });
     }
 
-    private void cargarDatos() {
+    @FXML
+    private void handleVerDetalle() {
+        Proveedor proveedorSeleccionado = tableView.getSelectionModel().getSelectedItem();
+        if (proveedorSeleccionado != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("detalle-proveedor.fxml"));
+                Parent root = loader.load();
+
+                DetalleProveedor controller = loader.getController();
+                controller.setProveedor(proveedorSeleccionado);
+
+                Stage stage = new Stage();
+                stage.setTitle("Detalle del Proveedor: " + proveedorSeleccionado.getNombreProveedor());
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+
+                // Recargar datos después de cerrar la ventana de detalle (por si hubo cambios)
+                cargarDatos();
+
+            } catch (IOException e) {
+                mostrarAlerta("Error al abrir el detalle del proveedor", e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void handleSearch() {
+        String searchText = searchField.getText().toLowerCase();
+        String searchType = (searchTypeCombo.getValue() != null) ? searchTypeCombo.getValue() : "Todos";
+        filterProveedores(searchText, searchType);
+    }
+
+    @FXML
+    private void handleSearchButton() {
+        handleSearch();
+    }
+
+    @FXML
+    private void handleClearSearch() {
+        searchField.clear();
+        searchTypeCombo.setValue("Todos");
+        tableView.setItems(proveedoresList);
+    }
+
+    public void cargarDatos() {
         proveedoresList.clear();
         String query = "SELECT * FROM proveedores";
 
@@ -91,7 +145,35 @@ public class FichaProveedor {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Aquí podrías mostrar un alert al usuario
         }
+    }
+
+    private void filterProveedores(String searchText, String searchType) {
+        ObservableList<Proveedor> filteredList = FXCollections.observableArrayList();
+        Predicate<Proveedor> predicate = proveedor -> {
+            if (searchType.equals("Todos")) {
+                return proveedor.getCifProveedor().toLowerCase().contains(searchText) ||
+                        proveedor.getNombreProveedor().toLowerCase().contains(searchText) ||
+                        proveedor.getEmailProveedor().toLowerCase().contains(searchText) ||
+                        proveedor.getTelefonoProveedor().toLowerCase().contains(searchText);
+            } else if (searchType.equals("CIF")) {
+                return proveedor.getCifProveedor().toLowerCase().contains(searchText);
+            } else if (searchType.equals("Nombre")) {
+                return proveedor.getNombreProveedor().toLowerCase().contains(searchText);
+            } else if (searchType.equals("Email")) {
+                return proveedor.getEmailProveedor().toLowerCase().contains(searchText);
+            } else if (searchType.equals("Teléfono")) {
+                return proveedor.getTelefonoProveedor().toLowerCase().contains(searchText);
+            }
+            return false;
+        };
+
+        for (Proveedor proveedor : proveedoresList) {
+            if (predicate.test(proveedor)) {
+                filteredList.add(proveedor);
+            }
+        }
+
+        tableView.setItems(filteredList);
     }
 }
