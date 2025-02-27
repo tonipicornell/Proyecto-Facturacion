@@ -146,9 +146,8 @@ public class HelloController {
 
             Stage stage = new Stage();
             stage.setTitle("Ficha Clientes ");
-            stage.setScene(new Scene(root, 600, 400));
+            stage.setScene(new Scene(root, 650, 450));
 
-            stage.setMaximized(true);
             stage.setResizable(false);
 
             secondaryStages.add(stage);
@@ -167,10 +166,9 @@ public class HelloController {
             Parent root = loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("Ficha Clientes ");
-            stage.setScene(new Scene(root, 600, 400));
+            stage.setTitle("Ficha Proveedores ");
+            stage.setScene(new Scene(root, 650, 450));
 
-            stage.setMaximized(true);
             stage.setResizable(false);
 
             secondaryStages.add(stage);

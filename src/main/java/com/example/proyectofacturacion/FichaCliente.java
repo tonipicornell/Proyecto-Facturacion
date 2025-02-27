@@ -3,21 +3,15 @@ package com.example.proyectofacturacion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.function.Predicate;
 
 public class FichaCliente {
     @FXML
@@ -30,7 +24,10 @@ public class FichaCliente {
     private TableColumn<Cliente, String> email_cliente;
     @FXML
     private TableColumn<Cliente, String> telefono_cliente;
-
+    @FXML
+    private TextField searchField;
+    @FXML
+    private ComboBox<String> searchTypeCombo; // Agregado
 
     private ObservableList<Cliente> clientesList = FXCollections.observableArrayList();
 
@@ -42,43 +39,35 @@ public class FichaCliente {
         email_cliente.setCellValueFactory(new PropertyValueFactory<>("emailCliente"));
         telefono_cliente.setCellValueFactory(new PropertyValueFactory<>("telCliente"));
 
+        // Inicializar ComboBox
+        searchTypeCombo.setItems(FXCollections.observableArrayList("Todos", "CIF", "Nombre", "Email", "Teléfono"));
+        searchTypeCombo.setValue("Todos");
+
         // Cargar los datos
         cargarDatos();
     }
 
     @FXML
-    private void handleTableClick(MouseEvent event) {
-        if (event.getClickCount() == 2) {
-            Cliente clienteSeleccionado = tableView.getSelectionModel().getSelectedItem();
-            if (clienteSeleccionado != null) {
-                abrirDetalleCliente(clienteSeleccionado);
-            }
-        }
+    private void handleSearch() {
+        String searchText = searchField.getText().toLowerCase();
+        String searchType = (searchTypeCombo.getValue() != null) ? searchTypeCombo.getValue() : "Todos";
+        filterClients(searchText, searchType);
     }
 
-    private void abrirDetalleCliente(Cliente cliente) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectofacturacion/detalle-cliente.fxml"));
-            Parent root = loader.load();
-
-            DetalleCliente controller = loader.getController();
-            controller.setCliente(cliente);
-
-            Stage stage = new Stage();
-            stage.setTitle("Detalle de Cliente: " + cliente.getNombreCliente());
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-
-            // Después de cerrar la ventana, actualizar la tabla
-            cargarDatos();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @FXML
+    private void handleSearchButton() {
+        handleSearch();
     }
 
-    private void cargarDatos() {
+    @FXML
+    private void handleClearSearch() {
+        searchField.clear();
+        searchTypeCombo.setValue("Todos");
+        tableView.setItems(clientesList);
+    }
+
+
+    public void cargarDatos() {
         clientesList.clear();
         String query = "SELECT * FROM clientes";
 
@@ -108,7 +97,35 @@ public class FichaCliente {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Aquí podrías mostrar un alert al usuario
         }
+    }
+
+    private void filterClients(String searchText, String searchType) {
+        ObservableList<Cliente> filteredList = FXCollections.observableArrayList();
+        Predicate<Cliente> predicate = cliente -> {
+            if (searchType.equals("Todos")) {
+                return cliente.getCifCliente().toLowerCase().contains(searchText) ||
+                        cliente.getNombreCliente().toLowerCase().contains(searchText) ||
+                        cliente.getEmailCliente().toLowerCase().contains(searchText) ||
+                        cliente.getTelCliente().toLowerCase().contains(searchText);
+            } else if (searchType.equals("CIF")) {
+                return cliente.getCifCliente().toLowerCase().contains(searchText);
+            } else if (searchType.equals("Nombre")) {
+                return cliente.getNombreCliente().toLowerCase().contains(searchText);
+            } else if (searchType.equals("Email")) {
+                return cliente.getEmailCliente().toLowerCase().contains(searchText);
+            } else if (searchType.equals("Teléfono")) {
+                return cliente.getTelCliente().toLowerCase().contains(searchText);
+            }
+            return false;
+        };
+
+        for (Cliente cliente : clientesList) {
+            if (predicate.test(cliente)) {
+                filteredList.add(cliente);
+            }
+        }
+
+        tableView.setItems(filteredList);
     }
 }
