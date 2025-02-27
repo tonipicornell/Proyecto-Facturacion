@@ -3,10 +3,17 @@ package com.example.proyectofacturacion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,27 +27,10 @@ public class FichaCliente {
     @FXML
     private TableColumn<Cliente, String> cif_cliente;
     @FXML
-    private TableColumn<Cliente, String> iban_cliente;
-    @FXML
     private TableColumn<Cliente, String> email_cliente;
     @FXML
     private TableColumn<Cliente, String> telefono_cliente;
-    @FXML
-    private TableColumn<Cliente, Double> riesgo_cliente;
-    @FXML
-    private TableColumn<Cliente, Double> descuento_cliente;
-    @FXML
-    private TableColumn<Cliente, String> direccion_cliente;
-    @FXML
-    private TableColumn<Cliente, String> cp_cliente;
-    @FXML
-    private TableColumn<Cliente, String> poblacion_cliente;
-    @FXML
-    private TableColumn<Cliente, String> provincia_cliente;
-    @FXML
-    private TableColumn<Cliente, String> pais_cliente;
-    @FXML
-    private TableColumn<Cliente, String> observaciones_cliente;
+
 
     private ObservableList<Cliente> clientesList = FXCollections.observableArrayList();
 
@@ -49,20 +39,43 @@ public class FichaCliente {
         // Configurar las columnas
         nombre_cliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         cif_cliente.setCellValueFactory(new PropertyValueFactory<>("cifCliente"));
-        iban_cliente.setCellValueFactory(new PropertyValueFactory<>("ibanCliente"));
         email_cliente.setCellValueFactory(new PropertyValueFactory<>("emailCliente"));
         telefono_cliente.setCellValueFactory(new PropertyValueFactory<>("telCliente"));
-        riesgo_cliente.setCellValueFactory(new PropertyValueFactory<>("riesgoCliente"));
-        descuento_cliente.setCellValueFactory(new PropertyValueFactory<>("descuentoCliente"));
-        direccion_cliente.setCellValueFactory(new PropertyValueFactory<>("direccionCliente"));
-        cp_cliente.setCellValueFactory(new PropertyValueFactory<>("cpCliente"));
-        poblacion_cliente.setCellValueFactory(new PropertyValueFactory<>("poblacionCliente"));
-        provincia_cliente.setCellValueFactory(new PropertyValueFactory<>("provinciaCliente"));
-        pais_cliente.setCellValueFactory(new PropertyValueFactory<>("paisCliente"));
-        observaciones_cliente.setCellValueFactory(new PropertyValueFactory<>("observacionesCliente"));
 
         // Cargar los datos
         cargarDatos();
+    }
+
+    @FXML
+    private void handleTableClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            Cliente clienteSeleccionado = tableView.getSelectionModel().getSelectedItem();
+            if (clienteSeleccionado != null) {
+                abrirDetalleCliente(clienteSeleccionado);
+            }
+        }
+    }
+
+    private void abrirDetalleCliente(Cliente cliente) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/proyectofacturacion/detalle-cliente.fxml"));
+            Parent root = loader.load();
+
+            DetalleCliente controller = loader.getController();
+            controller.setCliente(cliente);
+
+            Stage stage = new Stage();
+            stage.setTitle("Detalle de Cliente: " + cliente.getNombreCliente());
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+            // Después de cerrar la ventana, actualizar la tabla
+            cargarDatos();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void cargarDatos() {

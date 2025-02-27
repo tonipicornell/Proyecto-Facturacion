@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane fx:controller="com.example.proyectofacturacion.FichaCliente" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.6">
-    <TableView fx:id="tableView" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" >
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.proyectofacturacion.FichaCliente"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <TableView fx:id="tableView" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+               AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" onMouseClicked="#handleTableClick">
         <columns>
-            <TableColumn fx:id="nombre_cliente" prefWidth="120.800048828125" text="Nombre " />
             <TableColumn fx:id="cif_cliente" prefWidth="117.5999755859375" text="CIF" />
-            <TableColumn fx:id="iban_cliente" prefWidth="165.6000518798828" text="IBAN" />
+            <TableColumn fx:id="nombre_cliente" prefWidth="120.800048828125" text="Nombre " />
             <TableColumn fx:id="email_cliente" prefWidth="143.199951171875" text="Email" />
             <TableColumn fx:id="telefono_cliente" prefWidth="121.5999755859375" text="Teléfono" />
-            <TableColumn fx:id="riesgo_cliente" minWidth="0.0" prefWidth="50.4000244140625" text="Riesgo" />
-            <TableColumn fx:id="descuento_cliente" prefWidth="68.0" text="Descuento" />
-            <TableColumn fx:id="direccion_cliente" prefWidth="146.4000244140625" text="Dirección" />
-            <TableColumn fx:id="cp_cliente" prefWidth="90.39996337890625" text="Código Postal" />
-            <TableColumn fx:id="poblacion_cliente" prefWidth="95.20001220703125" text="Población" />
-            <TableColumn fx:id="provincia_cliente" prefWidth="102.4000244140625" text="Provincia" />
-            <TableColumn fx:id="pais_cliente" prefWidth="98.4000244140625" text="País" />
-            <TableColumn fx:id="observaciones_cliente" prefWidth="244.7999267578125" text="Observaciones" />
         </columns>
     </TableView>
+
 </AnchorPane>

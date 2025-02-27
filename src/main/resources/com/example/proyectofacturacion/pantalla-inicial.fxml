@@ -34,7 +34,7 @@
               <items>
                 <MenuItem id="crear_proveedor" mnemonicParsing="false" text="Crear proveedor" onAction="#handleCrearProveedor"/>
                 <MenuItem id="modificar_proveedor" mnemonicParsing="false" text="Modificar proveedor" onAction="#handleModificarProveedor"/>
-                <MenuItem id="ver_ficha_proveedor" mnemonicParsing="false" text="Ver fichas de proveedores" />
+                <MenuItem id="ver_ficha_proveedor" mnemonicParsing="false" text="Ver fichas de proveedores" onAction="#handleFichaProveedor"/>
               </items>
             </Menu>
 

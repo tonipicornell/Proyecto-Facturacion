@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:controller="com.example.proyectofacturacion.FichaProveedor" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.6">
+    <TableView fx:id="tableView" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <columns>
+            <TableColumn fx:id="nombre_proveedor" prefWidth="120" text="Nombre"/>
+            <TableColumn fx:id="cif_proveedor" prefWidth="120" text="CIF"/>
+            <TableColumn fx:id="direccion_proveedor" prefWidth="150" text="Dirección"/>
+            <TableColumn fx:id="cp_proveedor" prefWidth="100" text="Código Postal"/>
+            <TableColumn fx:id="poblacion_proveedor" prefWidth="120" text="Población"/>
+            <TableColumn fx:id="provincia_proveedor" prefWidth="120" text="Provincia"/>
+            <TableColumn fx:id="pais_proveedor" prefWidth="100" text="País"/>
+            <TableColumn fx:id="telefono_proveedor" prefWidth="120" text="Teléfono"/>
+            <TableColumn fx:id="email_proveedor" prefWidth="150" text="Email"/>
+            <TableColumn fx:id="iban_proveedor" prefWidth="150" text="IBAN"/>
+            <TableColumn fx:id="contacto_proveedor" prefWidth="120" text="Contacto"/>
+            <TableColumn fx:id="observaciones_proveedor" prefWidth="200" text="Observaciones"/>
+        </columns>
+    </TableView>
+</AnchorPane>
