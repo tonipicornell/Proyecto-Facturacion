@@ -200,6 +200,27 @@ public class HelloController {
     }
 
     @FXML
+    private void handleFichaArticulos(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ficha-articulo.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Ficha Articulos ");
+            stage.setScene(new Scene(root, 670, 450));
+
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleCrearFactura(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("crear-factura.fxml"));

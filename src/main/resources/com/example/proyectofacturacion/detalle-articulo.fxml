@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.DetalleArticulo"
+            prefWidth="700" prefHeight="650" style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);">
+    <children>
+        <!-- Panel superior con título -->
+        <VBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" spacing="10"
+              style="-fx-background-color: #3498db; -fx-padding: 15 20 15 20;">
+            <Label text="Ficha Detallada del Artículo" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="22"/>
+                </font>
+                <effect>
+                    <DropShadow radius="2" offsetX="1" offsetY="1" color="#00000077"/>
+                </effect>
+            </Label>
+            <Label text="Visualice y modifique la información completa del artículo" textFill="WHITE">
+                <font>
+                    <Font size="14"/>
+                </font>
+            </Label>
+        </VBox>
+
+        <!-- Panel principal con datos del artículo -->
+        <ScrollPane AnchorPane.topAnchor="90" AnchorPane.bottomAnchor="80" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
+                    fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <content>
+                <GridPane hgap="15" vgap="15" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 5;">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <effect>
+                        <DropShadow radius="5" offsetX="0" offsetY="2" color="#00000033"/>
+                    </effect>
+
+                    <!-- Sección: Datos Generales -->
+                    <Label text="Datos Generales" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Código:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="codigoField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"
+                               style="-fx-background-radius: 3;"/>
+                    <Label text="Código del artículo" GridPane.columnIndex="2" GridPane.rowIndex="2"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <Label text="Código Barras:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="codigoBarrasField" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                               style="-fx-background-radius: 3;"/>
+                    <Label text="Código de barras" GridPane.columnIndex="2" GridPane.rowIndex="3"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="descripcionField" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                               style="-fx-background-radius: 3;"/>
+                    <Label text="Descripción del artículo" GridPane.columnIndex="2" GridPane.rowIndex="4"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <!-- Sección: Clasificación -->
+                    <Label text="Clasificación" GridPane.columnIndex="0" GridPane.rowIndex="5"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Familia:" GridPane.columnIndex="0" GridPane.rowIndex="7" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="familiaCombo" GridPane.columnIndex="1" GridPane.rowIndex="7" prefWidth="300"
+                              style="-fx-background-radius: 3;"/>
+                    <Label text="Familia del artículo" GridPane.columnIndex="2" GridPane.rowIndex="7"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <Label text="Proveedor:" GridPane.columnIndex="0" GridPane.rowIndex="8" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="proveedorCombo" GridPane.columnIndex="1" GridPane.rowIndex="8" prefWidth="300"
+                              style="-fx-background-radius: 3;"/>
+                    <Label text="Proveedor del artículo" GridPane.columnIndex="2" GridPane.rowIndex="8"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <!-- Sección: Datos Económicos -->
+                    <Label text="Datos Económicos" GridPane.columnIndex="0" GridPane.rowIndex="9"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Coste:" GridPane.columnIndex="0" GridPane.rowIndex="11" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="costeField" GridPane.columnIndex="1" GridPane.rowIndex="11"
+                               style="-fx-background-radius: 3;"/>
+                    <Label text="Precio de coste" GridPane.columnIndex="2" GridPane.rowIndex="11"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <Label text="Margen (%):" GridPane.columnIndex="0" GridPane.rowIndex="12" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="margenField" GridPane.columnIndex="1" GridPane.rowIndex="12"
+                               style="-fx-background-radius: 3;"/>
+                    <Label text="Margen comercial" GridPane.columnIndex="2" GridPane.rowIndex="12"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <Label text="PVP:" GridPane.columnIndex="0" GridPane.rowIndex="13" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="pvpField" GridPane.columnIndex="1" GridPane.rowIndex="13"
+                               style="-fx-background-radius: 3;"/>
+                    <Label text="Precio venta público sin IVA" GridPane.columnIndex="2" GridPane.rowIndex="13"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <Label text="IVA:" GridPane.columnIndex="0" GridPane.rowIndex="14" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="tipoIvaCombo" GridPane.columnIndex="1" GridPane.rowIndex="14" prefWidth="300"
+                              style="-fx-background-radius: 3;"/>
+                    <Label text="Tipo de IVA aplicable" GridPane.columnIndex="2" GridPane.rowIndex="14"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <Label text="PVP con IVA:" GridPane.columnIndex="0" GridPane.rowIndex="15" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="precioConIvaField" GridPane.columnIndex="1" GridPane.rowIndex="15"
+                               style="-fx-background-radius: 3;" editable="false"/>
+                    <Label text="Precio venta público con IVA" GridPane.columnIndex="2" GridPane.rowIndex="15"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <!-- Sección: Inventario -->
+                    <Label text="Inventario" GridPane.columnIndex="0" GridPane.rowIndex="16"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="17" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Stock:" GridPane.columnIndex="0" GridPane.rowIndex="18" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="stockField" GridPane.columnIndex="1" GridPane.rowIndex="18"
+                               style="-fx-background-radius: 3;"/>
+                    <Label text="Unidades disponibles" GridPane.columnIndex="2" GridPane.rowIndex="18"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <!-- Sección: Observaciones -->
+                    <Label text="Observaciones" GridPane.columnIndex="0" GridPane.rowIndex="19"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="20" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <TextArea fx:id="observacionesArea" GridPane.columnIndex="0" GridPane.rowIndex="21"
+                              GridPane.columnSpan="2" prefHeight="100" wrapText="true"
+                              style="-fx-background-radius: 3;"/>
+                    <Label text="Observaciones" GridPane.columnIndex="2" GridPane.rowIndex="21"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="150" prefWidth="150" maxWidth="150" halignment="RIGHT"/>
+                        <ColumnConstraints hgrow="ALWAYS" prefWidth="250"/>
+                        <ColumnConstraints hgrow="SOMETIMES" prefWidth="200"/>
+                    </columnConstraints>
+                </GridPane>
+            </content>
+        </ScrollPane>
+
+        <!-- Botones inferiores -->
+        <HBox AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" spacing="10">
+            <Button text="Guardar" onAction="#handleGuardar"
+                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 25 8 25;">
+                <effect>
+                    <DropShadow radius="3" offsetX="0" offsetY="2" color="#00000033"/>
+                </effect>
+            </Button>
+
+            <Button text="Cancelar" onAction="#handleCancelar"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 25 8 25;">
+                <effect>
+                    <DropShadow radius="3" offsetX="0" offsetY="2" color="#00000033"/>
+                </effect>
+            </Button>
+        </HBox>
+    </children>
+</AnchorPane>

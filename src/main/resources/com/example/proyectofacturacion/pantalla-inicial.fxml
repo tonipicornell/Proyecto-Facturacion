@@ -26,7 +26,7 @@
               <items>
                 <MenuItem id="crear_articulo" mnemonicParsing="false" text="Crear artículo" onAction="#handleCrearArticulo" />
                 <MenuItem id="modificar_articulo" mnemonicParsing="false" text="Modificar artículo" onAction="#handleModificarArticulo"/>
-                <MenuItem id="ver_ficha_articulo" mnemonicParsing="false" text="Ver fichas de artículos" />
+                <MenuItem id="ver_ficha_articulo" mnemonicParsing="false" text="Ver fichas de artículos" onAction="#handleFichaArticulos"/>
               </items>
             </Menu>
 
