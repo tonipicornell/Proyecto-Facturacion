@@ -3,10 +3,15 @@ package com.example.proyectofacturacion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +32,9 @@ public class FichaCliente {
     @FXML
     private TextField searchField;
     @FXML
-    private ComboBox<String> searchTypeCombo; // Agregado
+    private ComboBox<String> searchTypeCombo;
+    @FXML
+    private Button verDetalleButton;
 
     private ObservableList<Cliente> clientesList = FXCollections.observableArrayList();
 
@@ -45,6 +52,49 @@ public class FichaCliente {
 
         // Cargar los datos
         cargarDatos();
+
+        // Deshabilitar el botón de detalle hasta que se seleccione un cliente
+        verDetalleButton.setDisable(true);
+
+        // Escuchar cambios en la selección de la tabla
+        tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            verDetalleButton.setDisable(newSelection == null);
+        });
+    }
+
+    @FXML
+    private void handleVerDetalle() {
+        Cliente clienteSeleccionado = tableView.getSelectionModel().getSelectedItem();
+        if (clienteSeleccionado != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("detalle-cliente.fxml"));
+                Parent root = loader.load();
+
+                DetalleCliente controller = loader.getController();
+                controller.setCliente(clienteSeleccionado);
+
+                Stage stage = new Stage();
+                stage.setTitle("Detalle del Cliente: " + clienteSeleccionado.getNombreCliente());
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+
+                // Recargar datos después de cerrar la ventana de detalle (por si hubo cambios)
+                cargarDatos();
+
+            } catch (IOException e) {
+                mostrarAlerta("Error al abrir el detalle del cliente", e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
     @FXML
@@ -65,7 +115,6 @@ public class FichaCliente {
         searchTypeCombo.setValue("Todos");
         tableView.setItems(clientesList);
     }
-
 
     public void cargarDatos() {
         clientesList.clear();
