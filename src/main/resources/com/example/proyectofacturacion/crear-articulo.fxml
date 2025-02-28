@@ -26,8 +26,8 @@
         <TextField fx:id="coste_articulo" layoutX="404.0" layoutY="84.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el coste" />
         <Label layoutX="355.0" layoutY="155.0" text="Precio" />
         <TextField fx:id="precio_venta_articulo" layoutX="404.0" layoutY="151.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el precio de venta" />
-        <Label layoutX="356.0" layoutY="227.0" text="Stock" />
-        <TextField fx:id="stock_articulo" layoutX="404.0" layoutY="222.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el stock" />
+        <Label layoutX="356.0" layoutY="265.0" text="Stock" />
+        <TextField fx:id="stock_articulo" layoutX="404.0" layoutY="261.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el stock" />
         <Label layoutX="29.0" layoutY="191.0" text="Familia del artículo" />
         <TextField fx:id="margen_comercial_articulo" layoutX="404.0" layoutY="118.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el margen comercial" />
         <Label layoutX="356.0" layoutY="122.0" text="Margen" />
@@ -36,7 +36,9 @@
         <ComboBox fx:id="proveedor_articulo" layoutX="143.0" layoutY="222.0" prefHeight="26.0" prefWidth="180.0" />
         <Label layoutX="31.0" layoutY="308.0" text="Observaciones" />
         <TextArea fx:id="observaciones_articulo" layoutX="143.0" layoutY="261.0" prefHeight="111.0" prefWidth="180.0" promptText="Introducir las observaciones del artículo" />
-        <Label layoutX="354.0" layoutY="192.0" text="Tipo IVA" />
-        <TextField fx:id="tipo_iva_articulo" layoutX="404.0" layoutY="188.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el tipo de IVA" />
+        <Label layoutX="360.0" layoutY="191.0" text="País" />
+        <ComboBox fx:id="pais_iva" layoutX="404.0" layoutY="188.0" prefHeight="26.0" prefWidth="180.0" promptText="Seleccione país" />
+        <Label layoutX="354.0" layoutY="227.0" text="Tipo IVA" />
+        <ComboBox fx:id="tipo_iva_combobox" layoutX="404.0" layoutY="222.0" prefHeight="26.0" prefWidth="180.0" promptText="Seleccione tipo de IVA" />
     </children>
 </AnchorPane>

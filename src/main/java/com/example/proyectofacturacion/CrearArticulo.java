@@ -11,7 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CrearArticulo {
@@ -31,7 +33,9 @@ public class CrearArticulo {
     @FXML
     private TextField stock_articulo;
     @FXML
-    private TextField tipo_iva_articulo;
+    private ComboBox<String> pais_iva;
+    @FXML
+    private ComboBox<String> tipo_iva_combobox;
     @FXML
     private ComboBox<String> familia_articulo;
     @FXML
@@ -44,26 +48,64 @@ public class CrearArticulo {
     // Mapas para almacenar los IDs correspondientes a los nombres seleccionados en los ComboBox
     private Map<String, Integer> mapaFamilias = new HashMap<>();
     private Map<String, Integer> mapaProveedores = new HashMap<>();
-    private Map<String, Integer> mapaTiposIva = new HashMap<>();
+    private Map<String, List<TipoIvaInfo>> mapaPaises = new HashMap<>();
+
+    // Clase interna para almacenar la información del IVA
+    private static class TipoIvaInfo {
+        private int id;
+        private String tipo;
+        private double valor;
+
+        public TipoIvaInfo(int id, String tipo, double valor) {
+            this.id = id;
+            this.tipo = tipo;
+            this.valor = valor;
+        }
+
+        public int getId() { return id; }
+        public String getTipo() { return tipo; }
+        public double getValor() { return valor; }
+
+        @Override
+        public String toString() {
+            return tipo + " (" + valor + "%)";
+        }
+    }
 
     @FXML
     private void initialize() {
-        // Agregar validaciones numéricas (eliminada la del precio de venta)
+        // Agregar validaciones numéricas
         agregarValidacionNumerica(coste_articulo, "Coste");
         agregarValidacionNumerica(margen_comercial_articulo, "Margen Comercial");
         agregarValidacionNumerica(stock_articulo, "Stock");
-        agregarValidacionNumerica(tipo_iva_articulo, "Tipo IVA");
 
         // Cargar datos en los ComboBox
         cargarFamilias();
         cargarProveedores();
-        cargarTiposIVA();
+        cargarPaises();
 
         // Configurar acción del botón
         boton_crear_articulo.setOnAction(event -> crearArticulo());
 
         // Configurar cálculo automático del precio de venta basado en coste y margen
         configurarCalculoAutomatico();
+
+        // Configurar el evento de selección del país
+        pais_iva.setOnAction(event -> {
+            String paisSeleccionado = pais_iva.getValue();
+            if (paisSeleccionado != null) {
+                cargarTiposIVAPorPais(paisSeleccionado);
+            }
+        });
+
+        // Configurar el evento de selección del tipo de IVA
+        tipo_iva_combobox.setOnAction(event -> {
+            TipoIvaInfo tipoIvaSeleccionado = getTipoIvaSeleccionado();
+            if (tipoIvaSeleccionado != null) {
+                // Se podría usar aquí para mostrar información adicional si es necesario
+                calcularPrecioVenta();
+            }
+        });
     }
 
     private void configurarCalculoAutomatico() {
@@ -100,21 +142,6 @@ public class CrearArticulo {
                 alert.setContentText("El campo '" + campo + "' debe ser un número válido.");
                 alert.showAndWait();
                 textField.setText(oldValue);
-            } else if (campo.equals("Tipo IVA") && !newValue.isEmpty()) {
-                try {
-                    // Reemplaza comas por puntos para asegurar el formato correcto para Double.parseDouble
-                    double iva = Double.parseDouble(newValue.replace(',', '.'));
-                    if (iva > 27) {
-                        Alert alert = new Alert(AlertType.WARNING);
-                        alert.setTitle("Valor no válido");
-                        alert.setHeaderText(null);
-                        alert.setContentText("El Tipo IVA no puede superar el 27%.");
-                        alert.showAndWait();
-                        textField.setText(oldValue);
-                    }
-                } catch (NumberFormatException e) {
-                    // Ignorar si el valor no es numérico
-                }
             }
         });
     }
@@ -153,22 +180,67 @@ public class CrearArticulo {
         }
     }
 
-    private void cargarTiposIVA() {
+    private void cargarPaises() {
         try (Connection connection = DataBaseConnected.getConnection()) {
-            // Cargar los tipos de IVA de España como predeterminado
-            String query = "SELECT idTipoIva, tipoIva, iva FROM tiposIva WHERE pais = 'España'";
+            String query = "SELECT DISTINCT pais FROM tiposIva ORDER BY pais";
             try (PreparedStatement statement = connection.prepareStatement(query);
                  ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    int id = resultSet.getInt("idTipoIva");
-                    double iva = resultSet.getDouble("iva");
-                    String tipoIva = resultSet.getString("tipoIva");
-                    mapaTiposIva.put(String.valueOf(iva), id);
+                    String pais = resultSet.getString("pais");
+                    pais_iva.getItems().add(pais);
+                    // Precargar los tipos de IVA para cada país
+                    cargarTiposIVAParaPais(pais);
                 }
             }
         } catch (SQLException e) {
-            mostrarError("Error al cargar los tipos de IVA: " + e.getMessage());
+            mostrarError("Error al cargar los países: " + e.getMessage());
         }
+    }
+
+    private void cargarTiposIVAParaPais(String pais) {
+        try (Connection connection = DataBaseConnected.getConnection()) {
+            String query = "SELECT idTipoIva, tipoIva, iva FROM tiposIva WHERE pais = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, pais);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    List<TipoIvaInfo> tiposIva = new ArrayList<>();
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("idTipoIva");
+                        String tipo = resultSet.getString("tipoIva");
+                        double valor = resultSet.getDouble("iva");
+                        tiposIva.add(new TipoIvaInfo(id, tipo, valor));
+                    }
+                    mapaPaises.put(pais, tiposIva);
+                }
+            }
+        } catch (SQLException e) {
+            mostrarError("Error al cargar los tipos de IVA para " + pais + ": " + e.getMessage());
+        }
+    }
+
+    private void cargarTiposIVAPorPais(String pais) {
+        tipo_iva_combobox.getItems().clear();
+        if (mapaPaises.containsKey(pais)) {
+            for (TipoIvaInfo tipoIva : mapaPaises.get(pais)) {
+                tipo_iva_combobox.getItems().add(tipoIva.toString());
+            }
+        }
+    }
+
+    // Obtener el tipo de IVA seleccionado
+    private TipoIvaInfo getTipoIvaSeleccionado() {
+        String paisSeleccionado = pais_iva.getValue();
+        String tipoIvaSeleccionado = tipo_iva_combobox.getValue();
+
+        if (paisSeleccionado != null && tipoIvaSeleccionado != null && mapaPaises.containsKey(paisSeleccionado)) {
+            List<TipoIvaInfo> tiposIva = mapaPaises.get(paisSeleccionado);
+            for (TipoIvaInfo tipoIva : tiposIva) {
+                if (tipoIva.toString().equals(tipoIvaSeleccionado)) {
+                    return tipoIva;
+                }
+            }
+        }
+        return null;
     }
 
     @FXML
@@ -183,25 +255,28 @@ public class CrearArticulo {
                 double margen = Double.parseDouble(margen_comercial_articulo.getText().replace(',', '.'));
                 double pvp = Double.parseDouble(precio_venta_articulo.getText().replace(',', '.'));
                 double stock = Double.parseDouble(stock_articulo.getText().replace(',', '.'));
-                double ivaValor = Double.parseDouble(tipo_iva_articulo.getText().replace(',', '.'));
                 String observaciones = observaciones_articulo.getText();
-
-                // Validar el IVA
-                if (ivaValor < 0 || ivaValor > 27) {
-                    mostrarError("El valor de IVA debe estar entre 0 y 27.");
-                    return;
-                }
 
                 // Obtener IDs de los ComboBox
                 Integer familiaId = mapaFamilias.get(familia_articulo.getValue());
                 Integer proveedorId = mapaProveedores.get(proveedor_articulo.getValue());
+
+                // Obtener el tipo de IVA seleccionado
+                TipoIvaInfo tipoIvaInfo = getTipoIvaSeleccionado();
+                if (tipoIvaInfo == null) {
+                    mostrarError("Seleccione un tipo de IVA válido.");
+                    return;
+                }
+
+                int tipoIvaId = tipoIvaInfo.getId();
+                double ivaValor = tipoIvaInfo.getValor();
 
                 // Calcular precio con IVA
                 double precioConIVA = pvp * (1 + (ivaValor / 100));
 
                 // Almacenar el artículo en la base de datos
                 guardarArticulo(codigo, codigoBarras, descripcion, familiaId, coste, margen, pvp,
-                        proveedorId, stock, observaciones, (int) ivaValor, precioConIVA);
+                        proveedorId, stock, observaciones, tipoIvaId, precioConIVA);
             } catch (NumberFormatException e) {
                 mostrarError("Por favor, asegúrese de que todos los campos numéricos contienen valores válidos.");
             }
@@ -215,7 +290,8 @@ public class CrearArticulo {
                 margen_comercial_articulo.getText().isEmpty() ||
                 precio_venta_articulo.getText().isEmpty() ||
                 stock_articulo.getText().isEmpty() ||
-                tipo_iva_articulo.getText().isEmpty() ||
+                pais_iva.getValue() == null ||
+                tipo_iva_combobox.getValue() == null ||
                 familia_articulo.getValue() == null ||
                 proveedor_articulo.getValue() == null) {
 
@@ -277,7 +353,8 @@ public class CrearArticulo {
         margen_comercial_articulo.clear();
         precio_venta_articulo.clear();
         stock_articulo.clear();
-        tipo_iva_articulo.clear();
+        pais_iva.setValue(null);
+        tipo_iva_combobox.getItems().clear();
         familia_articulo.setValue(null);
         proveedor_articulo.setValue(null);
         observaciones_articulo.clear();
