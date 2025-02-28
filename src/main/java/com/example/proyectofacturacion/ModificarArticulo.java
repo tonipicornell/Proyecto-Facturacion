@@ -4,7 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ModificarArticulo {
@@ -14,82 +16,130 @@ public class ModificarArticulo {
 
     @FXML
     private TextField codigo_articulo;
-
     @FXML
     private TextField codigo_barras_articulo;
-
     @FXML
     private TextField descripcion_articulo;
-
     @FXML
     private TextField coste_articulo;
-
     @FXML
     private TextField margen_comercial_articulo;
-
     @FXML
     private TextField precio_venta_articulo;
-
     @FXML
     private TextField stock_articulo;
-
     @FXML
-    private TextField tipo_iva_articulo;
-
+    private ComboBox<String> pais_iva;
+    @FXML
+    private ComboBox<String> tipo_iva_combobox;
     @FXML
     private ComboBox<String> familia_articulo;
-
     @FXML
     private ComboBox<String> proveedor_articulo;
-
     @FXML
     private TextArea observaciones_articulo;
-
     @FXML
-    private Button boton_crear_articulo;
-
-    private Connection connection;
+    private Button boton_buscar_articulo;
+    @FXML
+    private Button boton_modificar_articulo;
 
     // Mapas para almacenar los IDs correspondientes a los nombres seleccionados en los ComboBox
     private Map<String, Integer> mapaFamilias = new HashMap<>();
     private Map<String, Integer> mapaProveedores = new HashMap<>();
-    private Map<String, Integer> mapaTiposIva = new HashMap<>();
+    private Map<String, List<TipoIvaInfo>> mapaPaises = new HashMap<>();
 
-    // Mapas inversos para buscar nombres por ID
+    // Mapa inverso para obtener nombres a partir de IDs
     private Map<Integer, String> mapaFamiliasInverso = new HashMap<>();
     private Map<Integer, String> mapaProveedoresInverso = new HashMap<>();
+    private Map<Integer, TipoIvaInfo> mapaTiposIvaInverso = new HashMap<>();
+
+    // Clase interna para almacenar la información del IVA
+    private static class TipoIvaInfo {
+        private int id;
+        private String pais;
+        private String tipo;
+        private double valor;
+
+        public TipoIvaInfo(int id, String pais, String tipo, double valor) {
+            this.id = id;
+            this.pais = pais;
+            this.tipo = tipo;
+            this.valor = valor;
+        }
+
+        public int getId() { return id; }
+        public String getPais() { return pais; }
+        public String getTipo() { return tipo; }
+        public double getValor() { return valor; }
+
+        @Override
+        public String toString() {
+            return tipo + " (" + valor + "%)";
+        }
+    }
 
     @FXML
-    public void initialize() {
-        try {
-            connection = DataBaseConnected.getConnection();
+    private void initialize() {
+        // Inicialmente ocultar todos los campos excepto código de artículo
+        ocultarCampos(true);
 
-            // Inicialmente ocultar todos los campos excepto el código del artículo
-            ocultarCampos(true);
+        // Agregar validaciones numéricas
+        agregarValidacionNumerica(coste_articulo, "Coste");
+        agregarValidacionNumerica(margen_comercial_articulo, "Margen Comercial");
+        agregarValidacionNumerica(stock_articulo, "Stock");
 
-            // Cargar datos en los ComboBox
-            cargarFamilias();
-            cargarProveedores();
-            cargarTiposIVA();
+        // Cargar datos en los ComboBox
+        cargarFamilias();
+        cargarProveedores();
+        cargarPaises();
 
-            // Configurar el evento Enter en el campo código artículo
-            codigo_articulo.setOnAction(event -> buscarArticuloPorCodigo());
+        // Configurar acción del botón de búsqueda
+        boton_buscar_articulo.setOnAction(event -> buscarArticuloPorCodigo());
 
-            // Agregar validaciones numéricas
-            agregarValidacionNumerica(coste_articulo, "Coste");
-            agregarValidacionNumerica(margen_comercial_articulo, "Margen Comercial");
-            agregarValidacionNumerica(stock_articulo, "Stock");
-            agregarValidacionNumerica(tipo_iva_articulo, "Tipo IVA");
+        // Configurar acción del botón de modificación
+        boton_modificar_articulo.setOnAction(event -> modificarArticulo());
 
-            // Configurar cálculo automático del precio de venta
-            configurarCalculoAutomatico();
+        // Configurar cálculo automático del precio de venta basado en coste y margen
+        configurarCalculoAutomatico();
 
-            // Configurar el botón modificar
-            boton_crear_articulo.setOnAction(event -> modificarArticulo());
+        // Configurar el evento de selección del país
+        pais_iva.setOnAction(event -> {
+            String paisSeleccionado = pais_iva.getValue();
+            if (paisSeleccionado != null) {
+                cargarTiposIVAPorPais(paisSeleccionado);
+            }
+        });
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de conexión", "No se pudo conectar a la base de datos.");
+        // Configurar el evento de selección del tipo de IVA
+        tipo_iva_combobox.setOnAction(event -> {
+            TipoIvaInfo tipoIvaSeleccionado = getTipoIvaSeleccionado();
+            if (tipoIvaSeleccionado != null) {
+                // Se podría usar aquí para mostrar información adicional si es necesario
+                calcularPrecioVenta();
+            }
+        });
+    }
+
+    private void ocultarCampos(boolean ocultar) {
+        // Lista de todos los campos que se deben ocultar/mostrar excepto el código y botón de búsqueda
+        javafx.scene.Node[] campos = {
+                codigo_barras_articulo,
+                descripcion_articulo,
+                coste_articulo,
+                margen_comercial_articulo,
+                precio_venta_articulo,
+                stock_articulo,
+                pais_iva,
+                tipo_iva_combobox,
+                familia_articulo,
+                proveedor_articulo,
+                observaciones_articulo,
+                boton_modificar_articulo
+        };
+
+        for (javafx.scene.Node campo : campos) {
+            campo.setVisible(!ocultar);
+            campo.setManaged(!ocultar); // Esto evita que el espacio se reserve cuando está oculto
         }
     }
 
@@ -121,49 +171,18 @@ public class ModificarArticulo {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             // Patrón mejorado que acepta números enteros, números con punto decimal y números con coma decimal
             if (!newValue.isEmpty() && !newValue.matches("\\d*([.,]\\d*)?")) {
-                mostrarAlerta(Alert.AlertType.WARNING, "Valor no válido",
-                        "El campo '" + campo + "' debe ser un número válido.");
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Valor no válido");
+                alert.setHeaderText(null);
+                alert.setContentText("El campo '" + campo + "' debe ser un número válido.");
+                alert.showAndWait();
                 textField.setText(oldValue);
-            } else if (campo.equals("Tipo IVA") && !newValue.isEmpty()) {
-                try {
-                    // Reemplaza comas por puntos para asegurar el formato correcto
-                    double iva = Double.parseDouble(newValue.replace(',', '.'));
-                    if (iva > 27) {
-                        mostrarAlerta(Alert.AlertType.WARNING, "Valor no válido",
-                                "El Tipo IVA no puede superar el 27%.");
-                        textField.setText(oldValue);
-                    }
-                } catch (NumberFormatException e) {
-                    // Ignorar si el valor no es numérico
-                }
             }
         });
     }
 
-    private void ocultarCampos(boolean ocultar) {
-        // Lista de todos los campos que se deben ocultar/mostrar
-        javafx.scene.Node[] campos = {
-                codigo_barras_articulo,
-                descripcion_articulo,
-                coste_articulo,
-                margen_comercial_articulo,
-                precio_venta_articulo,
-                stock_articulo,
-                tipo_iva_articulo,
-                familia_articulo,
-                proveedor_articulo,
-                observaciones_articulo,
-                boton_crear_articulo
-        };
-
-        for (javafx.scene.Node campo : campos) {
-            campo.setVisible(!ocultar);
-            campo.setManaged(!ocultar); // Esto evita que el espacio se reserve cuando está oculto
-        }
-    }
-
     private void cargarFamilias() {
-        try {
+        try (Connection connection = DataBaseConnected.getConnection()) {
             String query = "SELECT idFamiliaArticulos, denominacionFamilias FROM familiaArticulos ORDER BY denominacionFamilias";
             try (PreparedStatement statement = connection.prepareStatement(query);
                  ResultSet resultSet = statement.executeQuery()) {
@@ -176,12 +195,12 @@ public class ModificarArticulo {
                 }
             }
         } catch (SQLException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error al cargar las familias de artículos: " + e.getMessage());
+            mostrarError("Error al cargar las familias de artículos: " + e.getMessage());
         }
     }
 
     private void cargarProveedores() {
-        try {
+        try (Connection connection = DataBaseConnected.getConnection()) {
             String query = "SELECT idProveedor, nombreProveedor FROM proveedores ORDER BY nombreProveedor";
             try (PreparedStatement statement = connection.prepareStatement(query);
                  ResultSet resultSet = statement.executeQuery()) {
@@ -194,185 +213,245 @@ public class ModificarArticulo {
                 }
             }
         } catch (SQLException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error al cargar los proveedores: " + e.getMessage());
+            mostrarError("Error al cargar los proveedores: " + e.getMessage());
         }
     }
 
-    private void cargarTiposIVA() {
-        try {
-            // Cargar los tipos de IVA de España como predeterminado
-            String query = "SELECT idTipoIva, tipoIva, iva FROM tiposIva WHERE pais = 'España'";
+    private void cargarPaises() {
+        try (Connection connection = DataBaseConnected.getConnection()) {
+            String query = "SELECT DISTINCT pais FROM tiposIva ORDER BY pais";
             try (PreparedStatement statement = connection.prepareStatement(query);
                  ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    int id = resultSet.getInt("idTipoIva");
-                    double iva = resultSet.getDouble("iva");
-                    String tipoIva = resultSet.getString("tipoIva");
-                    mapaTiposIva.put(String.valueOf(iva), id);
+                    String pais = resultSet.getString("pais");
+                    pais_iva.getItems().add(pais);
+                    // Precargar los tipos de IVA para cada país
+                    cargarTiposIVAParaPais(pais);
                 }
             }
         } catch (SQLException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Error al cargar los tipos de IVA: " + e.getMessage());
+            mostrarError("Error al cargar los países: " + e.getMessage());
         }
+    }
+
+    private void cargarTiposIVAParaPais(String pais) {
+        try (Connection connection = DataBaseConnected.getConnection()) {
+            String query = "SELECT idTipoIva, pais, tipoIva, iva FROM tiposIva WHERE pais = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, pais);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    List<TipoIvaInfo> tiposIva = new ArrayList<>();
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("idTipoIva");
+                        String tipo = resultSet.getString("tipoIva");
+                        double valor = resultSet.getDouble("iva");
+                        TipoIvaInfo tipoIvaInfo = new TipoIvaInfo(id, pais, tipo, valor);
+                        tiposIva.add(tipoIvaInfo);
+                        mapaTiposIvaInverso.put(id, tipoIvaInfo);
+                    }
+                    mapaPaises.put(pais, tiposIva);
+                }
+            }
+        } catch (SQLException e) {
+            mostrarError("Error al cargar los tipos de IVA para " + pais + ": " + e.getMessage());
+        }
+    }
+
+    private void cargarTiposIVAPorPais(String pais) {
+        tipo_iva_combobox.getItems().clear();
+        if (mapaPaises.containsKey(pais)) {
+            for (TipoIvaInfo tipoIva : mapaPaises.get(pais)) {
+                tipo_iva_combobox.getItems().add(tipoIva.toString());
+            }
+        }
+    }
+
+    // Obtener el tipo de IVA seleccionado
+    private TipoIvaInfo getTipoIvaSeleccionado() {
+        String paisSeleccionado = pais_iva.getValue();
+        String tipoIvaSeleccionado = tipo_iva_combobox.getValue();
+
+        if (paisSeleccionado != null && tipoIvaSeleccionado != null && mapaPaises.containsKey(paisSeleccionado)) {
+            List<TipoIvaInfo> tiposIva = mapaPaises.get(paisSeleccionado);
+            for (TipoIvaInfo tipoIva : tiposIva) {
+                if (tipoIva.toString().equals(tipoIvaSeleccionado)) {
+                    return tipoIva;
+                }
+            }
+        }
+        return null;
     }
 
     @FXML
     private void buscarArticuloPorCodigo() {
         String codigo = codigo_articulo.getText().trim();
         if (codigo.isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Código vacío", "Por favor, introduce un código de artículo.");
+            mostrarError("Por favor, introduce un código de artículo.");
             return;
         }
 
-        String query = "SELECT * FROM articulos WHERE codigoArticulo = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, codigo);
-            ResultSet resultSet = statement.executeQuery();
+        try (Connection connection = DataBaseConnected.getConnection()) {
+            String query = "SELECT * FROM articulos WHERE codigoArticulo = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, codigo);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        // Mostrar los campos primero
+                        ocultarCampos(false);
 
-            if (resultSet.next()) {
-                // Mostrar los campos primero
-                ocultarCampos(false);
+                        // Llenar los campos con los datos del artículo
+                        codigo_barras_articulo.setText(resultSet.getString("codigoBarrasArticulo"));
+                        descripcion_articulo.setText(resultSet.getString("descripcionArticulo"));
+                        coste_articulo.setText(String.format("%.2f", resultSet.getDouble("costeArticulo")));
+                        margen_comercial_articulo.setText(String.format("%.2f", resultSet.getDouble("margenComercialArticulo")));
+                        precio_venta_articulo.setText(String.format("%.2f", resultSet.getDouble("pvpArticulo")));
+                        stock_articulo.setText(String.format("%.2f", resultSet.getDouble("stockArticulo")));
+                        observaciones_articulo.setText(resultSet.getString("observacionesArticulo"));
 
-                // Luego rellenar con los datos
-                codigo_barras_articulo.setText(resultSet.getString("codigoBarrasArticulo"));
-                descripcion_articulo.setText(resultSet.getString("descripcionArticulo"));
-                coste_articulo.setText(String.format("%.2f", resultSet.getDouble("costeArticulo")));
-                margen_comercial_articulo.setText(String.format("%.2f", resultSet.getDouble("margenComercialArticulo")));
-                precio_venta_articulo.setText(String.format("%.2f", resultSet.getDouble("pvpArticulo")));
-                stock_articulo.setText(String.format("%.2f", resultSet.getDouble("stockArticulo")));
+                        // Seleccionar la familia del artículo
+                        int familiaId = resultSet.getInt("familiaArticulo");
+                        if (mapaFamiliasInverso.containsKey(familiaId)) {
+                            familia_articulo.setValue(mapaFamiliasInverso.get(familiaId));
+                        }
 
-                // Recuperar el valor del IVA desde la base de datos
-                int tipoIvaId = resultSet.getInt("tipoIva");
-                String queryIva = "SELECT iva FROM tiposIva WHERE idTipoIva = ?";
-                try (PreparedStatement stmtIva = connection.prepareStatement(queryIva)) {
-                    stmtIva.setInt(1, tipoIvaId);
-                    ResultSet rsIva = stmtIva.executeQuery();
-                    if (rsIva.next()) {
-                        tipo_iva_articulo.setText(String.format("%.0f", rsIva.getDouble("iva")));
+                        // Seleccionar el proveedor del artículo
+                        int proveedorId = resultSet.getInt("proveedorArticulo");
+                        if (mapaProveedoresInverso.containsKey(proveedorId)) {
+                            proveedor_articulo.setValue(mapaProveedoresInverso.get(proveedorId));
+                        }
+
+                        // Seleccionar el tipo de IVA
+                        int tipoIvaId = resultSet.getInt("tipoIva");
+                        if (mapaTiposIvaInverso.containsKey(tipoIvaId)) {
+                            TipoIvaInfo tipoIva = mapaTiposIvaInverso.get(tipoIvaId);
+                            pais_iva.setValue(tipoIva.getPais());
+                            // Cargar los tipos de IVA para el país seleccionado
+                            cargarTiposIVAPorPais(tipoIva.getPais());
+                            // Seleccionar el tipo de IVA específico
+                            tipo_iva_combobox.setValue(tipoIva.toString());
+                        }
+                    } else {
+                        mostrarError("No se encontró ningún artículo con el código " + codigo);
+                        ocultarCampos(true);
                     }
                 }
-
-                observaciones_articulo.setText(resultSet.getString("observacionesArticulo"));
-
-                // Establecer los valores de los ComboBox
-                int familiaId = resultSet.getInt("familiaArticulo");
-                int proveedorId = resultSet.getInt("proveedorArticulo");
-
-                familia_articulo.setValue(mapaFamiliasInverso.get(familiaId));
-                proveedor_articulo.setValue(mapaProveedoresInverso.get(proveedorId));
-
-            } else {
-                ocultarCampos(true);
-                mostrarAlerta(Alert.AlertType.INFORMATION, "Artículo no encontrado",
-                        "No se encontró un artículo con ese código.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            mostrarAlerta(Alert.AlertType.ERROR, "Error en la búsqueda",
-                    "Ocurrió un error al buscar el artículo: " + e.getMessage());
+            mostrarError("Error al buscar el artículo: " + e.getMessage());
         }
     }
 
     @FXML
     private void modificarArticulo() {
-        try {
-            // Validaciones básicas
-            if (codigo_articulo.getText().trim().isEmpty()) {
-                mostrarAlerta(Alert.AlertType.WARNING, "Error", "El código del artículo es obligatorio.");
-                return;
-            }
+        if (validarCampos()) {
+            try {
+                String codigo = codigo_articulo.getText().trim();
+                String codigoBarras = codigo_barras_articulo.getText().trim();
+                String descripcion = descripcion_articulo.getText().trim();
 
-            if (validarCampos()) {
-                String query = "UPDATE articulos SET codigoBarrasArticulo=?, descripcionArticulo=?, " +
-                        "familiaArticulo=?, costeArticulo=?, margenComercialArticulo=?, pvpArticulo=?, " +
-                        "proveedorArticulo=?, stockArticulo=?, observacionesArticulo=?, tipoIva=?, precioConIVA=? " +
-                        "WHERE codigoArticulo=?";
+                // Reemplazar comas por puntos para asegurar formato correcto en los números
+                double coste = Double.parseDouble(coste_articulo.getText().replace(',', '.'));
+                double margen = Double.parseDouble(margen_comercial_articulo.getText().replace(',', '.'));
+                double pvp = Double.parseDouble(precio_venta_articulo.getText().replace(',', '.'));
+                double stock = Double.parseDouble(stock_articulo.getText().replace(',', '.'));
+                String observaciones = observaciones_articulo.getText().trim();
 
-                try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                    stmt.setString(1, codigo_barras_articulo.getText().trim());
-                    stmt.setString(2, descripcion_articulo.getText().trim());
+                // Obtener IDs de los ComboBox
+                Integer familiaId = mapaFamilias.get(familia_articulo.getValue());
+                Integer proveedorId = mapaProveedores.get(proveedor_articulo.getValue());
 
-                    // Obtener IDs de los ComboBox
-                    Integer familiaId = mapaFamilias.get(familia_articulo.getValue());
-                    Integer proveedorId = mapaProveedores.get(proveedor_articulo.getValue());
-
-                    stmt.setInt(3, familiaId);
-
-                    // Convertir valores numéricos con manejo de errores
-                    double coste = Double.parseDouble(coste_articulo.getText().trim().replace(',', '.'));
-                    double margen = Double.parseDouble(margen_comercial_articulo.getText().trim().replace(',', '.'));
-                    double pvp = Double.parseDouble(precio_venta_articulo.getText().trim().replace(',', '.'));
-                    double stock = Double.parseDouble(stock_articulo.getText().trim().replace(',', '.'));
-                    double ivaValor = Double.parseDouble(tipo_iva_articulo.getText().trim().replace(',', '.'));
-
-                    // Calcular precio con IVA
-                    double precioConIVA = pvp * (1 + (ivaValor / 100));
-
-                    stmt.setDouble(4, coste);
-                    stmt.setDouble(5, margen);
-                    stmt.setDouble(6, pvp);
-                    stmt.setInt(7, proveedorId);
-                    stmt.setDouble(8, stock);
-                    stmt.setString(9, observaciones_articulo.getText().trim());
-                    stmt.setInt(10, (int)ivaValor);
-                    stmt.setDouble(11, precioConIVA);
-                    stmt.setString(12, codigo_articulo.getText().trim());
-
-                    int filasActualizadas = stmt.executeUpdate();
-                    if (filasActualizadas > 0) {
-                        mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Artículo actualizado correctamente.");
-                        ocultarCampos(true);
-                        codigo_articulo.clear();
-                    } else {
-                        mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo actualizar el artículo.");
-                    }
+                // Obtener el tipo de IVA seleccionado
+                TipoIvaInfo tipoIvaInfo = getTipoIvaSeleccionado();
+                if (tipoIvaInfo == null) {
+                    mostrarError("Seleccione un tipo de IVA válido.");
+                    return;
                 }
+
+                int tipoIvaId = tipoIvaInfo.getId();
+                double ivaValor = tipoIvaInfo.getValor();
+
+                // Calcular precio con IVA
+                double precioConIVA = pvp * (1 + (ivaValor / 100));
+
+                // Actualizar el artículo en la base de datos
+                actualizarArticulo(codigo, codigoBarras, descripcion, familiaId, coste, margen, pvp,
+                        proveedorId, stock, observaciones, tipoIvaId, precioConIVA);
+            } catch (NumberFormatException e) {
+                mostrarError("Por favor, asegúrese de que todos los campos numéricos contienen valores válidos.");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            mostrarAlerta(Alert.AlertType.ERROR, "Error en la actualización",
-                    "Ocurrió un error al modificar el artículo: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error",
-                    "Por favor, asegúrese de que todos los campos numéricos contienen valores válidos.");
         }
     }
 
     private boolean validarCampos() {
-        if (descripcion_articulo.getText().isEmpty() ||
+        if (codigo_articulo.getText().isEmpty() ||
+                descripcion_articulo.getText().isEmpty() ||
                 coste_articulo.getText().isEmpty() ||
                 margen_comercial_articulo.getText().isEmpty() ||
                 precio_venta_articulo.getText().isEmpty() ||
                 stock_articulo.getText().isEmpty() ||
-                tipo_iva_articulo.getText().isEmpty() ||
+                pais_iva.getValue() == null ||
+                tipo_iva_combobox.getValue() == null ||
                 familia_articulo.getValue() == null ||
                 proveedor_articulo.getValue() == null) {
 
-            mostrarAlerta(Alert.AlertType.WARNING, "Campo obligatorio",
-                    "Por favor, complete todos los campos obligatorios.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Campo obligatorio");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor, complete todos los campos obligatorios.");
+            alert.showAndWait();
             return false;
         }
-
-        // Validar el IVA
-        try {
-            double ivaValor = Double.parseDouble(tipo_iva_articulo.getText().replace(',', '.'));
-            if (ivaValor < 0 || ivaValor > 27) {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error", "El valor de IVA debe estar entre 0 y 27.");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "El campo de IVA debe ser un número válido.");
-            return false;
-        }
-
         return true;
     }
 
-    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido) {
-        Alert alerta = new Alert(tipo);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(contenido);
-        alerta.showAndWait();
+    private void actualizarArticulo(String codigo, String codigoBarras, String descripcion, Integer familiaId,
+                                    double coste, double margen, double pvp, Integer proveedorId,
+                                    double stock, String observaciones, Integer tipoIvaId, double precioConIVA) {
+        try (Connection connection = DataBaseConnected.getConnection()) {
+            String query = "UPDATE articulos SET codigoBarrasArticulo=?, descripcionArticulo=?, " +
+                    "familiaArticulo=?, costeArticulo=?, margenComercialArticulo=?, pvpArticulo=?, " +
+                    "proveedorArticulo=?, stockArticulo=?, observacionesArticulo=?, tipoIva=?, precioConIVA=? " +
+                    "WHERE codigoArticulo=?";
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, codigoBarras);
+                statement.setString(2, descripcion);
+                statement.setInt(3, familiaId);
+                statement.setDouble(4, coste);
+                statement.setDouble(5, margen);
+                statement.setDouble(6, pvp);
+                statement.setInt(7, proveedorId);
+                statement.setDouble(8, stock);
+                statement.setString(9, observaciones);
+                statement.setInt(10, tipoIvaId);
+                statement.setDouble(11, precioConIVA);
+                statement.setString(12, codigo);
+
+                int rowsAffected = statement.executeUpdate();
+                if (rowsAffected > 0) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Artículo Actualizado");
+                    alert.setHeaderText(null);
+                    alert.setContentText("El artículo ha sido actualizado exitosamente.");
+                    alert.showAndWait();
+
+                    // Ocultar los campos después de actualizar el artículo
+                    ocultarCampos(true);
+                    codigo_articulo.clear();
+                } else {
+                    mostrarError("No se pudo actualizar el artículo.");
+                }
+            }
+        } catch (SQLException e) {
+            mostrarError("Error al actualizar el artículo: " + e.getMessage());
+        }
+    }
+
+    private void mostrarError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 }

@@ -8,35 +8,107 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.ModificarArticulo">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.ModificarArticulo">
     <children>
-        <Label layoutX="13.0" layoutY="22.0" text="Modificar artículo:">
+        <Label layoutX="13.0" layoutY="14.0" text="Modificar artículo:">
             <font>
                 <Font size="36.0" />
             </font>
         </Label>
-        <Button id="modificar_articulo" fx:id="boton_crear_articulo" layoutX="494.0" layoutY="360.0" mnemonicParsing="false" text="Modificar" />
-        <Label layoutX="29.0" layoutY="89.0" text="Código artículo" />
-        <Label layoutX="29.0" layoutY="122.0" text="Código de barras" />
-        <TextField id="codigo_articulo" fx:id="codigo_articulo" layoutX="143.0" layoutY="85.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el código del artículo" />
-        <TextField id="codigo_barras_articulo" fx:id="codigo_barras_articulo" layoutX="143.0" layoutY="118.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el código de barras" />
-        <Label layoutX="29.0" layoutY="155.0" text="Descripción" />
-        <TextField id="descripcion_articulo" fx:id="descripcion_articulo" layoutX="143.0" layoutY="151.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir una descripción" />
-        <Label layoutX="356.0" layoutY="89.0" text="Coste" />
-        <TextField id="coste_articulo" fx:id="coste_articulo" layoutX="404.0" layoutY="84.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el coste" />
-        <Label layoutX="355.0" layoutY="155.0" text="Precio" />
-        <TextField id="precio_articulo" fx:id="precio_venta_articulo" layoutX="404.0" layoutY="151.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el precio de venta" />
-        <Label layoutX="356.0" layoutY="227.0" text="Stock" />
-        <TextField id="stock_articulo" fx:id="stock_articulo" layoutX="404.0" layoutY="222.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el stock" />
-        <Label layoutX="29.0" layoutY="191.0" text="Familia del artículo" />
-        <TextField id="margen_articulo" fx:id="margen_comercial_articulo" layoutX="404.0" layoutY="118.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el margen comercial" />
-        <Label layoutX="356.0" layoutY="122.0" text="Margen" />
-        <ComboBox id="familia_articulo" fx:id="familia_articulo" layoutX="143.0" layoutY="188.0" prefHeight="26.0" prefWidth="180.0" />
-        <Label layoutX="29.0" layoutY="227.0" text="Proveedor" />
-        <ComboBox id="proveedor_articulo" fx:id="proveedor_articulo" layoutX="143.0" layoutY="222.0" prefHeight="26.0" prefWidth="180.0" />
-        <Label layoutX="31.0" layoutY="308.0" text="Observaciones" />
-        <TextArea id="observaciones_articulo" fx:id="observaciones_articulo" layoutX="143.0" layoutY="261.0" prefHeight="111.0" prefWidth="180.0" promptText="Introducir las observaciones del artículo" />
-        <Label layoutX="354.0" layoutY="192.0" text="Tipo IVA" />
-        <TextField id="tipo_iva_articulo" fx:id="tipo_iva_articulo" layoutX="404.0" layoutY="188.0" prefHeight="26.0" prefWidth="180.0" promptText="Introducir el tipo de IVA" />
+
+        <!-- Código del artículo y botón de búsqueda -->
+        <Label layoutX="19.0" layoutY="91.0" prefHeight="27.0" prefWidth="140.0" text="Código de artículo:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="codigo_articulo" layoutX="159.0" layoutY="92.0" prefHeight="26.0" prefWidth="190.0" promptText="Introducir el código de artículo" />
+        <Button fx:id="boton_buscar_articulo" layoutX="359.0" layoutY="92.0" mnemonicParsing="false" text="Buscar" />
+
+        <!-- Primera fila de campos -->
+        <Label layoutX="19.0" layoutY="125.0" prefHeight="27.0" prefWidth="140.0" text="Código de barras:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="codigo_barras_articulo" layoutX="159.0" layoutY="126.0" prefHeight="26.0" prefWidth="190.0" promptText="Código de barras" />
+
+        <Label layoutX="420.0" layoutY="125.0" prefHeight="27.0" prefWidth="100.0" text="Descripción:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="descripcion_articulo" layoutX="520.0" layoutY="125.0" prefHeight="26.0" prefWidth="250.0" promptText="Descripción del artículo" />
+
+        <!-- Segunda fila de campos -->
+        <Label layoutX="19.0" layoutY="159.0" prefHeight="27.0" prefWidth="140.0" text="Familia:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="familia_articulo" layoutX="159.0" layoutY="160.0" prefHeight="26.0" prefWidth="190.0" promptText="Seleccionar familia" />
+
+        <Label layoutX="420.0" layoutY="159.0" prefHeight="27.0" prefWidth="100.0" text="Proveedor:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="proveedor_articulo" layoutX="520.0" layoutY="160.0" prefHeight="26.0" prefWidth="250.0" promptText="Seleccionar proveedor" />
+
+        <!-- Tercera fila de campos -->
+        <Label layoutX="19.0" layoutY="193.0" prefHeight="27.0" prefWidth="140.0" text="Coste:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="coste_articulo" layoutX="159.0" layoutY="193.0" prefHeight="26.0" prefWidth="190.0" promptText="Coste del artículo" />
+
+        <Label layoutX="420.0" layoutY="193.0" prefHeight="27.0" prefWidth="100.0" text="Margen (%):">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="margen_comercial_articulo" layoutX="520.0" layoutY="193.0" prefHeight="26.0" prefWidth="250.0" promptText="Margen comercial" />
+
+        <!-- Cuarta fila de campos -->
+        <Label layoutX="19.0" layoutY="226.0" prefHeight="27.0" prefWidth="140.0" text="Precio venta (sin IVA):">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="precio_venta_articulo" layoutX="159.0" layoutY="226.0" prefHeight="26.0" prefWidth="190.0" promptText="Precio de venta" />
+
+        <Label layoutX="420.0" layoutY="226.0" prefHeight="27.0" prefWidth="100.0" text="Stock:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="stock_articulo" layoutX="520.0" layoutY="226.0" prefHeight="26.0" prefWidth="250.0" promptText="Stock actual" />
+
+        <!-- Quinta fila de campos -->
+        <Label layoutX="19.0" layoutY="259.0" prefHeight="27.0" prefWidth="140.0" text="País IVA:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="pais_iva" layoutX="159.0" layoutY="259.0" prefHeight="26.0" prefWidth="190.0" promptText="Seleccionar país" />
+
+        <Label layoutX="420.0" layoutY="259.0" prefHeight="27.0" prefWidth="100.0" text="Tipo IVA:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="tipo_iva_combobox" layoutX="520.0" layoutY="259.0" prefHeight="26.0" prefWidth="250.0" promptText="Seleccionar tipo de IVA" />
+
+        <!-- Observaciones -->
+        <Label layoutX="19.0" layoutY="292.0" prefHeight="27.0" prefWidth="140.0" text="Observaciones:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextArea fx:id="observaciones_articulo" layoutX="19.0" layoutY="319.0" prefHeight="200.0" prefWidth="751.0" promptText="Observaciones sobre el artículo" />
+
+        <!-- Botón de modificar -->
+        <Button fx:id="boton_modificar_articulo" layoutX="680.0" layoutY="530.0" mnemonicParsing="false" text="Modificar Artículo" />
     </children>
 </AnchorPane>

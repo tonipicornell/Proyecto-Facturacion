@@ -125,7 +125,7 @@ public class HelloController {
 
             Stage stage = new Stage();
             stage.setTitle("Modificar Articulo");
-            stage.setScene(new Scene(root, 600, 400));
+            stage.setScene(new Scene(root, 700, 700));
             stage.setResizable(false);
 
             secondaryStages.add(stage);
