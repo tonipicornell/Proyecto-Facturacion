@@ -110,42 +110,49 @@
                     <Label text="Precio venta público sin IVA" GridPane.columnIndex="2" GridPane.rowIndex="13"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
-                    <Label text="IVA:" GridPane.columnIndex="0" GridPane.rowIndex="14" style="-fx-font-weight: bold;"/>
-                    <ComboBox fx:id="tipoIvaCombo" GridPane.columnIndex="1" GridPane.rowIndex="14" prefWidth="300"
+                    <!-- Sección: IVA (agregado el país que faltaba) -->
+                    <Label text="País IVA:" GridPane.columnIndex="0" GridPane.rowIndex="14" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="paisIvaCombo" GridPane.columnIndex="1" GridPane.rowIndex="14" prefWidth="300"
                               style="-fx-background-radius: 3;"/>
-                    <Label text="Tipo de IVA aplicable" GridPane.columnIndex="2" GridPane.rowIndex="14"
+                    <Label text="País para el tipo de IVA" GridPane.columnIndex="2" GridPane.rowIndex="14"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
-                    <Label text="PVP con IVA:" GridPane.columnIndex="0" GridPane.rowIndex="15" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="precioConIvaField" GridPane.columnIndex="1" GridPane.rowIndex="15"
+                    <Label text="IVA:" GridPane.columnIndex="0" GridPane.rowIndex="15" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="tipoIvaCombo" GridPane.columnIndex="1" GridPane.rowIndex="15" prefWidth="300"
+                              style="-fx-background-radius: 3;"/>
+                    <Label text="Tipo de IVA aplicable" GridPane.columnIndex="2" GridPane.rowIndex="15"
+                           style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
+
+                    <Label text="PVP con IVA:" GridPane.columnIndex="0" GridPane.rowIndex="16" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="precioConIvaField" GridPane.columnIndex="1" GridPane.rowIndex="16"
                                style="-fx-background-radius: 3;" editable="false"/>
-                    <Label text="Precio venta público con IVA" GridPane.columnIndex="2" GridPane.rowIndex="15"
+                    <Label text="Precio venta público con IVA" GridPane.columnIndex="2" GridPane.rowIndex="16"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
                     <!-- Sección: Inventario -->
-                    <Label text="Inventario" GridPane.columnIndex="0" GridPane.rowIndex="16"
+                    <Label text="Inventario" GridPane.columnIndex="0" GridPane.rowIndex="17"
                            GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
 
-                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="17" GridPane.columnSpan="3"
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="18" GridPane.columnSpan="3"
                                style="-fx-background-color: #3498db;"/>
 
-                    <Label text="Stock:" GridPane.columnIndex="0" GridPane.rowIndex="18" style="-fx-font-weight: bold;"/>
-                    <TextField fx:id="stockField" GridPane.columnIndex="1" GridPane.rowIndex="18"
+                    <Label text="Stock:" GridPane.columnIndex="0" GridPane.rowIndex="19" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="stockField" GridPane.columnIndex="1" GridPane.rowIndex="19"
                                style="-fx-background-radius: 3;"/>
-                    <Label text="Unidades disponibles" GridPane.columnIndex="2" GridPane.rowIndex="18"
+                    <Label text="Unidades disponibles" GridPane.columnIndex="2" GridPane.rowIndex="19"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
                     <!-- Sección: Observaciones -->
-                    <Label text="Observaciones" GridPane.columnIndex="0" GridPane.rowIndex="19"
+                    <Label text="Observaciones" GridPane.columnIndex="0" GridPane.rowIndex="20"
                            GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
 
-                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="20" GridPane.columnSpan="3"
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="21" GridPane.columnSpan="3"
                                style="-fx-background-color: #3498db;"/>
 
-                    <TextArea fx:id="observacionesArea" GridPane.columnIndex="0" GridPane.rowIndex="21"
+                    <TextArea fx:id="observacionesArea" GridPane.columnIndex="0" GridPane.rowIndex="22"
                               GridPane.columnSpan="2" prefHeight="100" wrapText="true"
                               style="-fx-background-radius: 3;"/>
-                    <Label text="Observaciones" GridPane.columnIndex="2" GridPane.rowIndex="21"
+                    <Label text="Observaciones" GridPane.columnIndex="2" GridPane.rowIndex="22"
                            style="-fx-text-fill: #7f8c8d; -fx-font-style: italic;"/>
 
                     <columnConstraints>
