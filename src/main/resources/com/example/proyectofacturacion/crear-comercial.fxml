@@ -1,14 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.proyectofacturacion.CrearComercial"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.CrearComercial" prefHeight="750" prefWidth="800">
+    <children>
+        <ScrollPane fitToWidth="true" prefHeight="750" prefWidth="800">
+            <content>
+                <VBox spacing="15" prefWidth="780">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
 
+                    <!-- Título -->
+                    <Label text="Nuevo Comercial" styleClass="header-label">
+                        <font>
+                            <Font size="18" />
+                        </font>
+                    </Label>
+
+                    <!-- Sección: Información Personal -->
+                    <TitledPane text="Información Personal" expanded="true">
+                        <content>
+                            <GridPane vgap="10" hgap="10">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+
+                                <Label text="Nombre: *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="nombreField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Apellidos: *" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <TextField fx:id="apellidosField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                                <Label text="NIF: *" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                                <TextField fx:id="nifField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                                <Label text="Dirección:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                                <TextField fx:id="direccionField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                                <Label text="Teléfono:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                                <TextField fx:id="telefonoField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+                                <Label text="Correo Electrónico:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                                <TextField fx:id="correoElectronicoField" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+
+                    <!-- Sección: Información Laboral -->
+                    <TitledPane text="Información Laboral" expanded="true">
+                        <content>
+                            <GridPane vgap="10" hgap="10">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+
+                                <Label text="Puesto de Trabajo:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="puestoTrabajoField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Zona de Actividad:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <TextField fx:id="zonaActividadField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                                <Label text="Fecha Contratación: *" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                                <DatePicker fx:id="fechaContratacionPicker" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+
+                    <!-- Sección: Información Comercial -->
+                    <TitledPane text="Información Comercial y Económica" expanded="true">
+                        <content>
+                            <GridPane vgap="10" hgap="10">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+
+                                <Label text="Comisiones:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="comisionesField" promptText="Ej: 500.50" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Incentivos:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <TextField fx:id="incentivosField" promptText="Ej: 1000.00" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+
+                    <!-- Sección: Rendimiento -->
+                    <TitledPane text="Historial y Objetivos" expanded="true">
+                        <content>
+                            <GridPane vgap="10" hgap="10">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+
+                                <Label text="Historial de Ventas:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextArea fx:id="historialVentasArea" prefHeight="100" wrapText="true" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Objetivos Alcanzados:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <TextArea fx:id="objetivosAlcanzadosArea" prefHeight="100" wrapText="true" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+
+                    <!-- Botones de acción -->
+                    <HBox spacing="15" alignment="CENTER_RIGHT">
+                        <Button fx:id="cancelarButton" text="Cancelar" onAction="#handleCancelar"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;" />
+                        <Button fx:id="guardarButton" text="Guardar" onAction="#handleGuardar"
+                                style="-fx-background-color: #2ecc71; -fx-text-fill: white;" />
+                    </HBox>
+
+                    <Label text="* Campos obligatorios" style="-fx-font-style: italic;" />
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
 </AnchorPane>
