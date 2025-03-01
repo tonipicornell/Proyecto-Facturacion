@@ -38,7 +38,7 @@
               </items>
             </Menu>
 
-            <MenuItem id="comerciales" mnemonicParsing="false" text="Comerciales" />
+            <MenuItem id="comerciales" mnemonicParsing="false" text="Comerciales" onAction="#handleVerComercial"/>
             <MenuItem id="distribuidores" mnemonicParsing="false" text="Distribuidores" />
             <MenuItem id="trabajadores" mnemonicParsing="false" text="Trabajadores" onAction="#handleVerTrabajador"/>
             <MenuItem id="tipos_iva" mnemonicParsing="false" text="Tipos IVA" onAction="#handleTipoIVA" />
