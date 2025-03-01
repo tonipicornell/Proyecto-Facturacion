@@ -220,7 +220,7 @@ public class CrearFactura {
             Articulo articulo = comboArticulos.getValue();
             if (articulo != null && !newValue.isEmpty()) {
                 try {
-                    double precioSinIVA = Double.parseDouble(newValue);
+                    double precioSinIVA = Double.parseDouble(newValue.replace(',', '.'));
                     double porcentajeIVA = obtenerPorcentajeIVA(articulo.getTipoIva());
                     double precioConIVA = precioSinIVA * (1 + porcentajeIVA / 100);
                     txtPrecioConIVA.setText(String.format("%.2f", precioConIVA));
@@ -272,21 +272,33 @@ public class CrearFactura {
         }
 
         try {
-            double cantidad = Double.parseDouble(txtCantidad.getText());
-            double precioSinIVA = Double.parseDouble(txtPrecioSinIVA.getText());
-            double descuento = 0;
-
-            if (!txtDescuento.getText().isEmpty()) {
-                descuento = Double.parseDouble(txtDescuento.getText());
+            // Verificar que la cantidad no esté vacía
+            if (txtCantidad.getText().isEmpty()) {
+                txtCantidad.setText("1"); // Valor por defecto
             }
 
-            // Obtener porcentaje de IVA
-            double porcentajeIVA = obtenerPorcentajeIVA(articulo.getTipoIva());
+            // Verificar que el precio sin IVA no esté vacío
+            if (txtPrecioSinIVA.getText().isEmpty()) {
+                txtPrecioSinIVA.setText(String.format("%.2f", articulo.getPvpArticulo()));
+            }
 
-            // Calcular importe sin IVA (base imponible de la línea)
+            // Reemplazar comas por puntos para manejar diferentes formatos numéricos
+            String cantidadStr = txtCantidad.getText().replace(',', '.');
+            String precioStr = txtPrecioSinIVA.getText().replace(',', '.');
+            String descuentoStr = txtDescuento.getText().replace(',', '.');
+
+            double cantidad = Double.parseDouble(cantidadStr);
+            double precioSinIVA = Double.parseDouble(precioStr);
+            double descuento = 0;
+
+            if (!descuentoStr.isEmpty()) {
+                descuento = Double.parseDouble(descuentoStr);
+            }
+
+            // El resto de tu código para agregar la línea...
+            double porcentajeIVA = obtenerPorcentajeIVA(articulo.getTipoIva());
             double importeSinIVA = cantidad * precioSinIVA * (1 - descuento / 100);
 
-            // Crear línea de factura con precio sin IVA
             LineaFactura linea = new LineaFactura(
                     articulo.getCodigoArticulo(),
                     articulo.getDescripcionArticulo(),
@@ -299,8 +311,6 @@ public class CrearFactura {
             );
 
             lineasFactura.add(linea);
-
-            // Actualizar totales
             calcularTotales();
 
             // Limpiar campos
@@ -310,7 +320,7 @@ public class CrearFactura {
             txtPrecioConIVA.setText("");
 
         } catch (NumberFormatException e) {
-            mostrarError("Error de formato", "Los valores numéricos no son válidos");
+            mostrarError("Error de formato", "Los valores numéricos no son válidos: " + e.getMessage());
         }
     }
 
@@ -438,9 +448,14 @@ public class CrearFactura {
             // Obtener ID del cliente seleccionado
             pstmt.setInt(3, obtenerIdCliente(conn, comboClientes.getValue().getNombreCliente()));
 
-            pstmt.setDouble(4, Double.parseDouble(txtBaseImponible.getText()));
-            pstmt.setDouble(5, Double.parseDouble(txtTotalIVA.getText()));
-            pstmt.setDouble(6, Double.parseDouble(txtTotalFactura.getText()));
+            // Reemplazar comas por puntos antes de parsear
+            String baseImponible = txtBaseImponible.getText().replace(',', '.');
+            String totalIVA = txtTotalIVA.getText().replace(',', '.');
+            String totalFactura = txtTotalFactura.getText().replace(',', '.');
+
+            pstmt.setDouble(4, Double.parseDouble(baseImponible));
+            pstmt.setDouble(5, Double.parseDouble(totalIVA));
+            pstmt.setDouble(6, Double.parseDouble(totalFactura));
             pstmt.setBoolean(7, checkCobrada.isSelected());
             pstmt.setInt(8, formaPagoId);
 
