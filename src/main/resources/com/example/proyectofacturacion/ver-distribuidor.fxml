@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.VerDistribuidor">
+    <children>
+        <!-- Título -->
+        <Label text="Gestión de Distribuidores" layoutX="20" layoutY="20" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+        <!-- Barra de búsqueda -->
+        <HBox layoutX="20" layoutY="50" spacing="10">
+            <Label text="Buscar:" style="-fx-font-weight: bold;">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+            </Label>
+            <TextField fx:id="searchField" promptText="Ingrese nombre de empresa, correo o teléfono" prefWidth="300" onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="searchTypeCombo" prefWidth="120"/>
+            <Button text="Buscar" fx:id="searchButton" onAction="#handleSearchButton" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+            <Button text="Limpiar" fx:id="clearButton" onAction="#handleClearSearch" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+        </HBox>
+
+        <!-- Tabla de distribuidores -->
+        <TableView fx:id="tableView" layoutX="20" layoutY="100" prefWidth="800" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="nombre_empresa" text="Nombre Empresa" prefWidth="200"/>
+                <TableColumn fx:id="direccion_fisica" text="Dirección" prefWidth="200"/>
+                <TableColumn fx:id="telefono" text="Teléfono" prefWidth="120"/>
+                <TableColumn fx:id="correo_electronico" text="Email" prefWidth="180"/>
+                <TableColumn fx:id="soporte_postventa" text="Soporte Postventa" prefWidth="100"/>
+            </columns>
+        </TableView>
+
+        <!-- Botones para gestionar distribuidores -->
+        <HBox layoutX="20" layoutY="420" spacing="15">
+            <Button fx:id="nuevoDistribuidorButton" text="Nuevo Distribuidor"
+                    onAction="#handleNuevoDistribuidor"
+                    style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+            <Button fx:id="verDetalleButton" text="Ver Detalle"
+                    onAction="#handleVerDetalle"
+                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+            <Button fx:id="eliminarDistribuidorButton" text="Eliminar"
+                    onAction="#handleEliminarDistribuidor"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </children>
+</AnchorPane>
