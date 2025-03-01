@@ -32,7 +32,8 @@ public class CrearFactura {
     // Artículos
     @FXML private ComboBox<Articulo> comboArticulos;
     @FXML private TextField txtCantidad;
-    @FXML private TextField txtPrecio;
+    @FXML private TextField txtPrecioSinIVA;  // Cambiado de txtPrecio a txtPrecioSinIVA
+    @FXML private TextField txtPrecioConIVA;  // Nuevo campo para mostrar precio con IVA
     @FXML private TextField txtDescuento;
     @FXML private Button btnAgregarLinea;
     @FXML private Button btnEliminarLinea;
@@ -137,13 +138,18 @@ public class CrearFactura {
     private void cargarArticulos() {
         try (Connection conn = DataBaseConnected.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(
-                     "SELECT a.*, f.denominacionFamilias " +
+                     "SELECT a.*, f.denominacionFamilias, t.iva " +
                              "FROM articulos a " +
-                             "LEFT JOIN familiaArticulos f ON a.familiaArticulo = f.idFamiliaArticulos")) {
+                             "LEFT JOIN familiaArticulos f ON a.familiaArticulo = f.idFamiliaArticulos " +
+                             "LEFT JOIN tiposIva t ON a.tipoIva = t.idTipoIva")) {
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
+                double precioSinIVA = rs.getDouble("pvpArticulo");
+                double porcentajeIVA = rs.getDouble("iva");
+                double precioConIVA = precioSinIVA * (1 + porcentajeIVA / 100);
+
                 Articulo articulo = new Articulo(
                         rs.getString("codigoArticulo"),
                         rs.getString("codigoBarrasArticulo"),
@@ -152,12 +158,12 @@ public class CrearFactura {
                         rs.getString("denominacionFamilias"),
                         rs.getDouble("costeArticulo"),
                         rs.getDouble("margenComercialArticulo"),
-                        rs.getDouble("pvpArticulo"),
+                        precioSinIVA,  // Precio sin IVA
                         rs.getInt("proveedorArticulo"),
                         rs.getDouble("stockArticulo"),
                         rs.getString("observacionesArticulo"),
                         rs.getInt("tipoIva"),
-                        rs.getDouble("precioConIVA")
+                        precioConIVA  // Precio con IVA calculado
                 );
                 listaArticulos.add(articulo);
             }
@@ -204,7 +210,23 @@ public class CrearFactura {
         comboArticulos.setOnAction(e -> {
             Articulo articulo = comboArticulos.getValue();
             if (articulo != null) {
-                txtPrecio.setText(String.valueOf(articulo.getPvpArticulo()));
+                txtPrecioSinIVA.setText(String.format("%.2f", articulo.getPvpArticulo()));
+                txtPrecioConIVA.setText(String.format("%.2f", articulo.getPrecioConIVA()));
+            }
+        });
+
+        // Actualización de precio con IVA cuando cambia el precio sin IVA
+        txtPrecioSinIVA.textProperty().addListener((observable, oldValue, newValue) -> {
+            Articulo articulo = comboArticulos.getValue();
+            if (articulo != null && !newValue.isEmpty()) {
+                try {
+                    double precioSinIVA = Double.parseDouble(newValue);
+                    double porcentajeIVA = obtenerPorcentajeIVA(articulo.getTipoIva());
+                    double precioConIVA = precioSinIVA * (1 + porcentajeIVA / 100);
+                    txtPrecioConIVA.setText(String.format("%.2f", precioConIVA));
+                } catch (NumberFormatException ex) {
+                    txtPrecioConIVA.setText("");
+                }
             }
         });
 
@@ -251,7 +273,7 @@ public class CrearFactura {
 
         try {
             double cantidad = Double.parseDouble(txtCantidad.getText());
-            double precio = Double.parseDouble(txtPrecio.getText());
+            double precioSinIVA = Double.parseDouble(txtPrecioSinIVA.getText());
             double descuento = 0;
 
             if (!txtDescuento.getText().isEmpty()) {
@@ -261,17 +283,17 @@ public class CrearFactura {
             // Obtener porcentaje de IVA
             double porcentajeIVA = obtenerPorcentajeIVA(articulo.getTipoIva());
 
-            // Calcular importe
-            double importe = cantidad * precio * (1 - descuento / 100);
+            // Calcular importe sin IVA (base imponible de la línea)
+            double importeSinIVA = cantidad * precioSinIVA * (1 - descuento / 100);
 
-            // Crear línea de factura
+            // Crear línea de factura con precio sin IVA
             LineaFactura linea = new LineaFactura(
                     articulo.getCodigoArticulo(),
                     articulo.getDescripcionArticulo(),
                     cantidad,
-                    precio,
+                    precioSinIVA,
                     descuento,
-                    importe,
+                    importeSinIVA,
                     porcentajeIVA,
                     articulo.getProveedorArticulo()
             );
@@ -284,7 +306,8 @@ public class CrearFactura {
             // Limpiar campos
             comboArticulos.setValue(null);
             txtCantidad.setText("1");
-            txtPrecio.setText("");
+            txtPrecioSinIVA.setText("");
+            txtPrecioConIVA.setText("");
 
         } catch (NumberFormatException e) {
             mostrarError("Error de formato", "Los valores numéricos no son válidos");
@@ -456,7 +479,7 @@ public class CrearFactura {
                 pstmt.setInt(2, obtenerIdArticulo(conn, linea.getCodigoArticulo()));
                 pstmt.setString(3, linea.getDescripcion());
                 pstmt.setString(4, linea.getCodigoArticulo());
-                pstmt.setDouble(5, linea.getPrecio());
+                pstmt.setDouble(5, linea.getPrecio());  // Guardamos el precio sin IVA
                 pstmt.setDouble(6, linea.getPorcentajeIVA());
                 pstmt.setInt(7, linea.getIdProveedor());
                 pstmt.setString(8, obtenerNombreProveedor(conn, linea.getIdProveedor()));
@@ -546,7 +569,8 @@ public class CrearFactura {
 
         comboArticulos.setValue(null);
         txtCantidad.setText("1");
-        txtPrecio.clear();
+        txtPrecioSinIVA.clear();
+        txtPrecioConIVA.clear();
         txtDescuento.clear();
 
         lineasFactura.clear();
@@ -608,7 +632,7 @@ public class CrearFactura {
         private String codigoArticulo;
         private String descripcion;
         private double cantidad;
-        private double precio;
+        private double precio; // Ahora este precio es sin IVA
         private double descuento;
         private double importe;
         private double porcentajeIVA;

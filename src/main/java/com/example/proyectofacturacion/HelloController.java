@@ -228,7 +228,7 @@ public class HelloController {
 
             Stage stage = new Stage();
             stage.setTitle("Crear Factura ");
-            stage.setScene(new Scene(root, 700, 700));
+            stage.setScene(new Scene(root, 850, 750));
 
             stage.setResizable(false);
 
