@@ -103,7 +103,7 @@ public class VerTrabajador {
     @FXML
     private void handleNuevoTrabajador() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("nuevo-trabajador.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("crear-trabajador.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
