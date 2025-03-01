@@ -20,10 +20,9 @@ public class Distribuidor {
     private String metodosEnvio;
     private boolean soportePostventa;
 
-    public Distribuidor(int id, String nombreEmpresa, String direccionFisica, String telefono,
-                        String correoElectronico, String paginaWeb, String condicionesPago,
-                        double precioCompra, double margenGanancia, int volumenCompra,
-                        String condicionesEntrega, LocalDate contratoInicio, LocalDate contratoTermino,
+    public Distribuidor(int id, String nombreEmpresa, String direccionFisica, String telefono, String correoElectronico,
+                        String paginaWeb, String condicionesPago, double precioCompra, double margenGanancia,
+                        int volumenCompra, String condicionesEntrega, LocalDate contratoInicio, LocalDate contratoTermino,
                         String territorioAsignado, String metodosEnvio, boolean soportePostventa) {
         this.id = id;
         this.nombreEmpresa = nombreEmpresa;
@@ -172,7 +171,7 @@ public class Distribuidor {
         this.soportePostventa = soportePostventa;
     }
 
-    // Método para obtener el texto de soporte postventa (Sí/No)
+    // Método de utilidad para la vista
     public String getSoportePostventaTexto() {
         return soportePostventa ? "Sí" : "No";
     }

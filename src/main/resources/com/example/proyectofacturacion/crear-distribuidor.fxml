@@ -1,14 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.proyectofacturacion.CrearDistribuidor"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.CrearDistribuidor" prefHeight="750" prefWidth="800">
+    <children>
+        <ScrollPane fitToWidth="true" prefHeight="750" prefWidth="800">
+            <content>
+                <VBox spacing="15" prefWidth="780">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
 
+                    <!-- Título -->
+                    <Label text="Nuevo Distribuidor" styleClass="header-label">
+                        <font>
+                            <Font size="18" />
+                        </font>
+                    </Label>
+
+                    <!-- Sección: Información de la Empresa -->
+                    <TitledPane text="Información de la Empresa" expanded="true">
+                        <content>
+                            <GridPane vgap="10" hgap="10">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+
+                                <Label text="Nombre de la Empresa: *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextField fx:id="nombreEmpresaField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Dirección Física:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <TextField fx:id="direccionFisicaField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                                <Label text="Teléfono:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                                <TextField fx:id="telefonoField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                                <Label text="Correo Electrónico:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                                <TextField fx:id="correoElectronicoField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                                <Label text="Página Web:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                                <TextField fx:id="paginaWebField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+                                <Label text="Soporte Postventa:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                                <CheckBox fx:id="soportePostventaCheck" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+
+                    <!-- Sección: Condiciones Comerciales -->
+                    <TitledPane text="Condiciones Comerciales" expanded="true">
+                        <content>
+                            <GridPane vgap="10" hgap="10">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+
+                                <Label text="Condiciones de Pago:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <TextArea fx:id="condicionesPagoArea" prefHeight="80" wrapText="true" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Precio de Compra (€):" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <TextField fx:id="precioCompraField" promptText="Ej: 1000.50" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                                <Label text="Margen de Ganancia (%):" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                                <TextField fx:id="margenGananciaField" promptText="Ej: 15.5" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                                <Label text="Volumen de Compra (uds):" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                                <TextField fx:id="volumenCompraField" promptText="Ej: 500" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                                <Label text="Condiciones de Entrega:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                                <TextArea fx:id="condicionesEntregaArea" prefHeight="80" wrapText="true" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+
+                    <!-- Sección: Contrato y Territorio -->
+                    <TitledPane text="Contrato y Territorio" expanded="true">
+                        <content>
+                            <GridPane vgap="10" hgap="10">
+                                <padding>
+                                    <Insets top="10" right="10" bottom="10" left="10"/>
+                                </padding>
+
+                                <Label text="Fecha Inicio Contrato:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                                <DatePicker fx:id="contratoInicioPicker" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                                <Label text="Fecha Término Contrato:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                                <DatePicker fx:id="contratoTerminoPicker" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                                <Label text="Territorio Asignado:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                                <TextArea fx:id="territorioAsignadoArea" prefHeight="80" wrapText="true" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                                <Label text="Métodos de Envío:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                                <ComboBox fx:id="metodosEnvioCombo" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                            </GridPane>
+                        </content>
+                    </TitledPane>
+
+                    <!-- Botones de acción -->
+                    <HBox spacing="15" alignment="CENTER_RIGHT">
+                        <Button fx:id="cancelarButton" text="Cancelar" onAction="#handleCancelar"
+                                style="-fx-background-color: #e74c3c; -fx-text-fill: white;" />
+                        <Button fx:id="guardarButton" text="Guardar" onAction="#handleGuardar"
+                                style="-fx-background-color: #2ecc71; -fx-text-fill: white;" />
+                    </HBox>
+
+                    <Label text="* Campos obligatorios" style="-fx-font-style: italic;" />
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
 </AnchorPane>
