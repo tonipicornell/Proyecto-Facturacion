@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.DetalleTrabajador"
+            prefWidth="800" prefHeight="700" style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);">
+    <children>
+        <!-- Panel superior con título -->
+        <VBox AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" spacing="10"
+              style="-fx-background-color: #3498db; -fx-padding: 15 20 15 20;">
+            <Label text="Ficha Detallada del Trabajador" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="22"/>
+                </font>
+                <effect>
+                    <DropShadow radius="2" offsetX="1" offsetY="1" color="#00000077"/>
+                </effect>
+            </Label>
+            <Label text="Visualice y modifique la información completa del trabajador" textFill="WHITE">
+                <font>
+                    <Font size="14"/>
+                </font>
+            </Label>
+        </VBox>
+
+        <!-- Panel principal con datos del trabajador -->
+        <ScrollPane AnchorPane.topAnchor="90" AnchorPane.bottomAnchor="80" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
+                    fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <content>
+                <GridPane hgap="15" vgap="15" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 5;">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+
+                    <effect>
+                        <DropShadow radius="5" offsetX="0" offsetY="2" color="#00000033"/>
+                    </effect>
+
+                    <!-- Sección: Datos Personales -->
+                    <Label text="Datos Personales" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Nombre completo:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="nombreField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="300"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="DNI/NIE:" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="dniNieField" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Fecha nacimiento:" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;"/>
+                    <DatePicker fx:id="fechaNacimientoPicker" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                                style="-fx-background-radius: 3;"/>
+
+                    <!-- Sección: Contacto -->
+                    <Label text="Datos de Contacto" GridPane.columnIndex="0" GridPane.rowIndex="5"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Dirección:" GridPane.columnIndex="0" GridPane.rowIndex="7" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="direccionField" GridPane.columnIndex="1" GridPane.rowIndex="7"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="8" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="telefonoField" GridPane.columnIndex="1" GridPane.rowIndex="8"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="9" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="9"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Datos bancarios:" GridPane.columnIndex="0" GridPane.rowIndex="10" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="bancoField" GridPane.columnIndex="1" GridPane.rowIndex="10"
+                               style="-fx-background-radius: 3;"/>
+
+                    <!-- Sección: Datos Laborales -->
+                    <Label text="Datos Laborales" GridPane.columnIndex="0" GridPane.rowIndex="11"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="12" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Nº Afiliación SS:" GridPane.columnIndex="0" GridPane.rowIndex="13" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="numeroSsField" GridPane.columnIndex="1" GridPane.rowIndex="13"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Fecha inicio contrato:" GridPane.columnIndex="0" GridPane.rowIndex="14" style="-fx-font-weight: bold;"/>
+                    <DatePicker fx:id="fechaInicioPicker" GridPane.columnIndex="1" GridPane.rowIndex="14"
+                                style="-fx-background-radius: 3;"/>
+
+                    <Label text="Tipo de contrato:" GridPane.columnIndex="0" GridPane.rowIndex="15" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="tipoContratoCombo" GridPane.columnIndex="1" GridPane.rowIndex="15"
+                              prefWidth="300" style="-fx-background-radius: 3;"/>
+
+                    <Label text="Puesto de trabajo:" GridPane.columnIndex="0" GridPane.rowIndex="16" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="puestoField" GridPane.columnIndex="1" GridPane.rowIndex="16"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Centro de trabajo:" GridPane.columnIndex="0" GridPane.rowIndex="17" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="centroField" GridPane.columnIndex="1" GridPane.rowIndex="17"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Grupo profesional:" GridPane.columnIndex="0" GridPane.rowIndex="18" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="grupoField" GridPane.columnIndex="1" GridPane.rowIndex="18"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Jornada laboral:" GridPane.columnIndex="0" GridPane.rowIndex="19" style="-fx-font-weight: bold;"/>
+                    <ComboBox fx:id="jornadaCombo" GridPane.columnIndex="1" GridPane.rowIndex="19"
+                              prefWidth="300" style="-fx-background-radius: 3;"/>
+
+                    <Label text="Retención IRPF (%):" GridPane.columnIndex="0" GridPane.rowIndex="20" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="irpfField" GridPane.columnIndex="1" GridPane.rowIndex="20"
+                               style="-fx-background-radius: 3;"/>
+
+                    <Label text="Régimen SS:" GridPane.columnIndex="0" GridPane.rowIndex="21" style="-fx-font-weight: bold;"/>
+                    <TextField fx:id="regimenSsField" GridPane.columnIndex="1" GridPane.rowIndex="21"
+                               style="-fx-background-radius: 3;"/>
+
+                    <!-- Sección: Formación y Experiencia -->
+                    <Label text="Formación y Experiencia" GridPane.columnIndex="0" GridPane.rowIndex="22"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="23" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Títulos académicos:" GridPane.columnIndex="0" GridPane.rowIndex="24" style="-fx-font-weight: bold;"/>
+                    <TextArea fx:id="titulosArea" GridPane.columnIndex="1" GridPane.rowIndex="24"
+                              prefHeight="80" wrapText="true" style="-fx-background-radius: 3;"/>
+
+                    <Label text="Cursos formación:" GridPane.columnIndex="0" GridPane.rowIndex="25" style="-fx-font-weight: bold;"/>
+                    <TextArea fx:id="cursosArea" GridPane.columnIndex="1" GridPane.rowIndex="25"
+                              prefHeight="80" wrapText="true" style="-fx-background-radius: 3;"/>
+
+                    <Label text="Experiencia laboral:" GridPane.columnIndex="0" GridPane.rowIndex="26" style="-fx-font-weight: bold;"/>
+                    <TextArea fx:id="experienciaArea" GridPane.columnIndex="1" GridPane.rowIndex="26"
+                              prefHeight="80" wrapText="true" style="-fx-background-radius: 3;"/>
+
+                    <!-- Sección: Datos Adicionales -->
+                    <Label text="Datos Adicionales" GridPane.columnIndex="0" GridPane.rowIndex="27"
+                           GridPane.columnSpan="3" style="-fx-text-fill: #3498db; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+                    <Separator GridPane.columnIndex="0" GridPane.rowIndex="28" GridPane.columnSpan="3"
+                               style="-fx-background-color: #3498db;"/>
+
+                    <Label text="Antecedentes penales:" GridPane.columnIndex="0" GridPane.rowIndex="29" style="-fx-font-weight: bold;"/>
+                    <CheckBox fx:id="antecedentesPenalesCheck" GridPane.columnIndex="1" GridPane.rowIndex="29"/>
+
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="180" prefWidth="180" maxWidth="180" halignment="RIGHT"/>
+                        <ColumnConstraints hgrow="ALWAYS" prefWidth="300"/>
+                        <ColumnConstraints hgrow="SOMETIMES" prefWidth="200"/>
+                    </columnConstraints>
+                </GridPane>
+            </content>
+        </ScrollPane>
+
+        <!-- Botones inferiores -->
+        <HBox AnchorPane.bottomAnchor="20" AnchorPane.rightAnchor="20" spacing="10">
+            <Button text="Guardar" onAction="#handleGuardar"
+                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 25 8 25;">
+                <effect>
+                    <DropShadow radius="3" offsetX="0" offsetY="2" color="#00000033"/>
+                </effect>
+            </Button>
+
+            <Button text="Cancelar" onAction="#handleCancelar"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 25 8 25;">
+                <effect>
+                    <DropShadow radius="3" offsetX="0" offsetY="2" color="#00000033"/>
+                </effect>
+            </Button>
+        </HBox>
+    </children>
+</AnchorPane>

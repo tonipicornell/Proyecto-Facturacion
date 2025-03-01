@@ -221,6 +221,27 @@ public class HelloController {
     }
 
     @FXML
+    private void handleVerTrabajador(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ver-trabajador.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Gestión de trabajadores ");
+            stage.setScene(new Scene(root, 670, 450));
+
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleCrearFactura(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("crear-factura.fxml"));

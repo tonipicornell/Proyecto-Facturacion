@@ -40,7 +40,7 @@
 
             <MenuItem id="comerciales" mnemonicParsing="false" text="Comerciales" />
             <MenuItem id="distribuidores" mnemonicParsing="false" text="Distribuidores" />
-            <MenuItem id="trabajadores" mnemonicParsing="false" text="Trabajadores" />
+            <MenuItem id="trabajadores" mnemonicParsing="false" text="Trabajadores" onAction="#handleVerTrabajador"/>
             <MenuItem id="tipos_iva" mnemonicParsing="false" text="Tipos IVA" onAction="#handleTipoIVA" />
             <MenuItem id="familias" mnemonicParsing="false" text="Familias" />
           </items>
