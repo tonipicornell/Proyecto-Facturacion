@@ -53,7 +53,7 @@
         </Menu>
         <Menu id="rectificativas" mnemonicParsing="false" text="Rectificativas">
           <items>
-            <MenuItem id="crear_rectificativa" mnemonicParsing="false" text="Crear Rectificativa" />
+            <MenuItem id="crear_rectificativa" mnemonicParsing="false" text="Crear Rectificativa" onAction="#handleCrearRectificativa"/>
             <MenuItem id="ver_rectificativa" mnemonicParsing="false" text="Ver Rectificativa" />
           </items>
         </Menu>
