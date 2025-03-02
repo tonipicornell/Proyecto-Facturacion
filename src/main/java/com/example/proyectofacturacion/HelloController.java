@@ -291,7 +291,7 @@ public class HelloController {
 
             Stage stage = new Stage();
             stage.setTitle("Gestión de familias ");
-            stage.setScene(new Scene(root, 830, 450));
+            stage.setScene(new Scene(root, 520, 370));
 
             stage.setResizable(false);
 

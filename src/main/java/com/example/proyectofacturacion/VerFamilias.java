@@ -76,16 +76,4 @@ public class VerFamilias {
         searchField.clear();
         loadFamilias("");
     }
-
-    // Método para manejar el botón "Ver Detalle"
-    @FXML
-    private void handleVerDetalle() {
-        // Lógica para ver los detalles de la familia seleccionada
-    }
-
-    // Método para manejar el botón "Crear Nueva Familia"
-    @FXML
-    private void handleCrearNuevo() {
-        // Lógica para crear una nueva familia
-    }
 }
