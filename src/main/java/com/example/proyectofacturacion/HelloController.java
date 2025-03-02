@@ -305,6 +305,27 @@ public class HelloController {
     }
 
     @FXML
+    private void handleBuscarFactura(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("buscar-factura.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Buscar Factura ");
+            stage.setScene(new Scene(root, 850, 750));
+
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleDatosEmpresa(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("datos-empresa.fxml"));
