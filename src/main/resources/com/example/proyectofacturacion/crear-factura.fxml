@@ -235,15 +235,6 @@
                                 <DropShadow radius="5.0" offsetX="1.0" offsetY="1.0" color="#00000066" />
                             </effect>
                         </Button>
-                        <Button fx:id="btnImprimir" mnemonicParsing="false" text="Imprimir"
-                                style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10 20;">
-                            <font>
-                                <Font size="14.0" />
-                            </font>
-                            <effect>
-                                <DropShadow radius="5.0" offsetX="1.0" offsetY="1.0" color="#00000066" />
-                            </effect>
-                        </Button>
                     </HBox>
                 </VBox>
             </content>

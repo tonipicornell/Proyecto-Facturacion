@@ -8,8 +8,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CrearFactura {
 
@@ -56,7 +54,6 @@ public class CrearFactura {
     // Botones de acción
     @FXML private Button btnGuardar;
     @FXML private Button btnCancelar;
-    @FXML private Button btnImprimir;
 
     // Listas para los ComboBox
     private ObservableList<Cliente> listaClientes;
@@ -241,9 +238,6 @@ public class CrearFactura {
 
         // Botón cancelar
         btnCancelar.setOnAction(e -> limpiarFormulario());
-
-        // Botón imprimir
-        btnImprimir.setOnAction(e -> imprimirFactura());
     }
 
     private void generarNumeroFactura() {
@@ -593,11 +587,6 @@ public class CrearFactura {
         txtBaseImponible.setText("0.00");
         txtTotalIVA.setText("0.00");
         txtTotalFactura.setText("0.00");
-    }
-
-    private void imprimirFactura() {
-        // Implementar funcionalidad de impresión
-        mostrarInformacion("Impresión", "Funcionalidad de impresión no implementada");
     }
 
     private void mostrarError(String titulo, String mensaje) {
