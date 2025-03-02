@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.BuscarFactura">
-    <top>
-        <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
-            <Label text="Listado de Facturas" textAlignment="CENTER">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.BuscarFactura">
+    <children>
+        <!-- Título -->
+        <Label text="Gestión de Facturas" layoutX="20" layoutY="20" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+        <!-- Barra de búsqueda -->
+        <HBox layoutX="20" layoutY="50" spacing="10">
+            <Label text="Buscar:" style="-fx-font-weight: bold;">
                 <font>
-                    <Font name="System Bold" size="18.0" />
+                    <Font size="14.0"/>
                 </font>
             </Label>
-        </VBox>
-    </top>
-    <center>
-        <TableView fx:id="tablaFacturas" prefHeight="400.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+            <TextField fx:id="searchField" promptText="Ingrese Nº Factura, Cliente o Fecha" prefWidth="300" onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="searchTypeCombo" prefWidth="120"/>
+            <Button text="Buscar" fx:id="searchButton" onAction="#handleSearchButton" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+            <Button text="Limpiar" fx:id="clearButton" onAction="#handleClearSearch" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+        </HBox>
+
+        <!-- Tabla de facturas -->
+        <TableView fx:id="tablaFacturas" layoutX="20" layoutY="100" prefWidth="750" prefHeight="300">
             <columns>
-                <TableColumn fx:id="colNumeroFactura" prefWidth="120.0" text="Nº Factura" />
-                <TableColumn fx:id="colCliente" prefWidth="250.0" text="Cliente" />
-                <TableColumn fx:id="colFechaCobro" prefWidth="120.0" text="Fecha Cobro" />
-                <TableColumn fx:id="colCobrada" prefWidth="120.0" text="Cobrada" />
-                <TableColumn fx:id="colTotal" prefWidth="120.0" text="Total" />
+                <TableColumn fx:id="colNumeroFactura" text="Nº Factura" prefWidth="120"/>
+                <TableColumn fx:id="colCliente" text="Cliente" prefWidth="250"/>
+                <TableColumn fx:id="colFechaCobro" text="Fecha Cobro" prefWidth="120"/>
+                <TableColumn fx:id="colCobrada" text="Cobrada" prefWidth="120"/>
+                <TableColumn fx:id="colTotal" text="Total" prefWidth="120"/>
             </columns>
-            <BorderPane.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </BorderPane.margin>
         </TableView>
-    </center>
-</BorderPane>
+
+        <!-- Botón para ver detalle de factura -->
+        <Button fx:id="verDetalleButton" text="Ver Detalle" layoutX="650" layoutY="420"
+                onAction="#handleVerDetalle"
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;" />
+    </children>
+</AnchorPane>
