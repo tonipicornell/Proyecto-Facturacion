@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proyectofacturacion.VerFamilias">
+    <children>
+        <!-- Título -->
+        <Label text="Gestión de Familias de Artículos" layoutX="20" layoutY="20" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+        <!-- Barra de búsqueda -->
+        <HBox layoutX="20" layoutY="50" spacing="10">
+            <Label text="Buscar:" style="-fx-font-weight: bold;">
+                <font>
+                    <Font size="14.0"/>
+                </font>
+            </Label>
+            <TextField fx:id="searchField" promptText="Ingrese código o denominación" prefWidth="300" onKeyReleased="#handleSearch"/>
+            <Button text="Buscar" fx:id="searchButton" onAction="#handleSearchButton" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+            <Button text="Limpiar" fx:id="clearButton" onAction="#handleClearSearch" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+        </HBox>
+
+        <!-- Tabla de familias de artículos -->
+        <TableView fx:id="tableViewFamilias" layoutX="20" layoutY="100" prefWidth="700" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="codigoFamiliaColumn" text="Código" prefWidth="150"/>
+                <TableColumn fx:id="denominacionFamiliaColumn" text="Denominación" prefWidth="250"/>
+            </columns>
+        </TableView>
+
+        <!-- Botones para acciones -->
+        <HBox layoutX="20" layoutY="420" spacing="15">
+            <Button fx:id="verDetalleButton" text="Ver Detalle"
+                    onAction="#handleVerDetalle"
+                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button fx:id="crearNuevoButton" text="Crear Nueva Familia"
+                    onAction="#handleCrearNuevo"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </children>
+</AnchorPane>

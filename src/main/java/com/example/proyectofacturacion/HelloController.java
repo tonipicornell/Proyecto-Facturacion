@@ -284,6 +284,27 @@ public class HelloController {
     }
 
     @FXML
+    private void handleVerFamilias(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ver-familias.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Gestión de familias ");
+            stage.setScene(new Scene(root, 830, 450));
+
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleCrearFactura(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("crear-factura.fxml"));
