@@ -1,5 +1,6 @@
 package com.example.proyectofacturacion;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +10,6 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.net.URL;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -36,6 +36,7 @@ public class DatosEmpresaControlador implements Initializable {
     @FXML private Button btnCancelar;
 
     private DatosEmpresa datosEmpresaOriginal;
+    private boolean esNuevoRegistro = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -53,6 +54,91 @@ public class DatosEmpresaControlador implements Initializable {
 
         // Cargar datos iniciales
         cargarDatosEmpresa();
+
+        // Configurar listeners para actualización automática después de que la UI esté lista
+        Platform.runLater(this::configurarActualizacionAutomatica);
+    }
+
+    /**
+     * Configura un listener para cuando la ventana recibe el foco,
+     * actualizando automáticamente los contadores.
+     */
+    private void configurarActualizacionAutomatica() {
+        // Configurar el listener de manera segura utilizando sceneProperty()
+        txtNumeroTrabajadores.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                // Ahora que tenemos una escena, podemos configurar el listener de la ventana
+                newScene.windowProperty().addListener((obsWindow, oldWindow, newWindow) -> {
+                    if (newWindow != null) {
+                        // Configurar el listener para el foco de la ventana
+                        newWindow.focusedProperty().addListener((obsFocus, oldFocus, newFocus) -> {
+                            if (newFocus) { // Si la ventana recibe el foco
+                                actualizarContadores();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Actualiza los contadores consultando las tablas relacionadas
+     */
+    private void actualizarContadores() {
+        try (Connection conn = DataBaseConnected.getConnection()) {
+            int numTrabajadores = contarRegistros(conn, "trabajadores");
+            int numComerciales = contarRegistros(conn, "comerciales");
+            int numDistribuidores = contarRegistros(conn, "distribuidores");
+            int numProveedores = contarRegistros(conn, "proveedores");
+            int numClientes = contarRegistros(conn, "clientes");
+
+            // Actualizar la interfaz
+            txtNumeroTrabajadores.setText(String.valueOf(numTrabajadores));
+            txtNumeroComerciales.setText(String.valueOf(numComerciales));
+            txtNumeroDistribuidores.setText(String.valueOf(numDistribuidores));
+            txtNumeroProveedores.setText(String.valueOf(numProveedores));
+            txtNumeroClientes.setText(String.valueOf(numClientes));
+
+            // Si tenemos datos de empresa cargados, actualizar también el modelo
+            if (datosEmpresaOriginal != null) {
+                datosEmpresaOriginal.setNumeroTrabajadores(numTrabajadores);
+                datosEmpresaOriginal.setNumeroComerciales(numComerciales);
+                datosEmpresaOriginal.setNumeroDistribuidores(numDistribuidores);
+                datosEmpresaOriginal.setNumeroProveedores(numProveedores);
+                datosEmpresaOriginal.setNumeroClientes(numClientes);
+
+                // Actualizar también en la base de datos si hay un registro existente
+                if (!esNuevoRegistro) {
+                    actualizarContadoresEnBD(conn, numTrabajadores, numComerciales,
+                            numDistribuidores, numProveedores, numClientes);
+                }
+            }
+        } catch (SQLException e) {
+            mostrarAlerta("Error de base de datos",
+                    "Error al actualizar contadores: " + e.getMessage(),
+                    AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Actualiza los contadores en la base de datos
+     */
+    private void actualizarContadoresEnBD(Connection conn, int trabajadores, int comerciales,
+                                          int distribuidores, int proveedores, int clientes) throws SQLException {
+        String query = "UPDATE empresa SET numero_trabajadores=?, numero_comerciales=?, " +
+                "numero_distribuidores=?, numero_proveedores=?, numero_clientes=? " +
+                "WHERE id_empresa=1";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, trabajadores);
+            pstmt.setInt(2, comerciales);
+            pstmt.setInt(3, distribuidores);
+            pstmt.setInt(4, proveedores);
+            pstmt.setInt(5, clientes);
+            pstmt.executeUpdate();
+        }
     }
 
     /**
@@ -120,13 +206,36 @@ public class DatosEmpresaControlador implements Initializable {
 
                     // Mostrar datos en la interfaz
                     mostrarDatosEmpresa(datosEmpresaOriginal);
+                    esNuevoRegistro = false;
                 } else {
-                    // Si no existe el registro, creamos uno nuevo
+                    // Si no existe el registro, activamos el modo de edición automáticamente
                     mostrarAlerta("No existe registro de empresa",
-                            "No se encontró ningún registro de empresa. Se creará uno nuevo.",
+                            "No se encontró ningún registro de empresa. Se entrará en modo edición para crear uno nuevo.",
                             AlertType.INFORMATION);
                     datosEmpresaOriginal = new DatosEmpresa();
                     datosEmpresaOriginal.setIdEmpresa(1);
+
+                    // Actualizar contadores
+                    int numTrabajadores = contarRegistros(conn, "trabajadores");
+                    int numComerciales = contarRegistros(conn, "comerciales");
+                    int numDistribuidores = contarRegistros(conn, "distribuidores");
+                    int numProveedores = contarRegistros(conn, "proveedores");
+                    int numClientes = contarRegistros(conn, "clientes");
+
+                    datosEmpresaOriginal.setNumeroTrabajadores(numTrabajadores);
+                    datosEmpresaOriginal.setNumeroComerciales(numComerciales);
+                    datosEmpresaOriginal.setNumeroDistribuidores(numDistribuidores);
+                    datosEmpresaOriginal.setNumeroProveedores(numProveedores);
+                    datosEmpresaOriginal.setNumeroClientes(numClientes);
+
+                    mostrarDatosEmpresa(datosEmpresaOriginal);
+                    esNuevoRegistro = true;
+
+                    // Activar modo edición automáticamente
+                    setEdicionHabilitada(true);
+                    btnEditar.setVisible(false);
+                    btnGuardar.setVisible(true);
+                    btnCancelar.setVisible(true);
                 }
             }
         } catch (SQLException e) {
@@ -213,6 +322,7 @@ public class DatosEmpresaControlador implements Initializable {
         if (guardarDatosEmpresa(datosActualizados)) {
             // Actualizar el objeto original
             datosEmpresaOriginal = datosActualizados;
+            esNuevoRegistro = false;
 
             // Deshabilitar edición
             setEdicionHabilitada(false);
@@ -233,6 +343,14 @@ public class DatosEmpresaControlador implements Initializable {
      */
     @FXML
     void handleCancelar(ActionEvent event) {
+        // Si es nuevo registro y hay campos obligatorios vacíos, mostrar alerta
+        if (esNuevoRegistro && (txtRazonSocial.getText().trim().isEmpty() || txtNif.getText().trim().isEmpty())) {
+            mostrarAlerta("Datos incompletos",
+                    "Se requiere al menos la Razón Social y el NIF para crear un registro de empresa.",
+                    AlertType.WARNING);
+            return;
+        }
+
         // Restaurar datos originales
         mostrarDatosEmpresa(datosEmpresaOriginal);
 
@@ -272,12 +390,12 @@ public class DatosEmpresaControlador implements Initializable {
         datos.setEstatutosSociales(txtEstatutosSociales.getText().trim());
         datos.setLibroActas(chkLibroActas.isSelected());
 
-        // Los números se mantienen como los que vienen de la base de datos
-        datos.setNumeroTrabajadores(datosEmpresaOriginal.getNumeroTrabajadores());
-        datos.setNumeroComerciales(datosEmpresaOriginal.getNumeroComerciales());
-        datos.setNumeroDistribuidores(datosEmpresaOriginal.getNumeroDistribuidores());
-        datos.setNumeroProveedores(datosEmpresaOriginal.getNumeroProveedores());
-        datos.setNumeroClientes(datosEmpresaOriginal.getNumeroClientes());
+        // Usamos los valores actuales de los contadores
+        datos.setNumeroTrabajadores(Integer.parseInt(txtNumeroTrabajadores.getText()));
+        datos.setNumeroComerciales(Integer.parseInt(txtNumeroComerciales.getText()));
+        datos.setNumeroDistribuidores(Integer.parseInt(txtNumeroDistribuidores.getText()));
+        datos.setNumeroProveedores(Integer.parseInt(txtNumeroProveedores.getText()));
+        datos.setNumeroClientes(Integer.parseInt(txtNumeroClientes.getText()));
 
         datos.setConvenioColectivo(txtConvenioColectivo.getText().trim());
 
@@ -377,9 +495,7 @@ public class DatosEmpresaControlador implements Initializable {
         txtConvenioColectivo.setEditable(editable);
     }
 
-    /**
-     * Muestra un diálogo de alerta
-     */
+    // Muestra un diálogo de alerta
     private void mostrarAlerta(String titulo, String mensaje, AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
@@ -388,9 +504,7 @@ public class DatosEmpresaControlador implements Initializable {
         alert.showAndWait();
     }
 
-    /**
-     * Muestra un diálogo de confirmación
-     */
+    // Muestra un diálogo de confirmación
     private boolean mostrarConfirmacion(String titulo, String mensaje) {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle(titulo);
