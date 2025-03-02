@@ -6,10 +6,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Alert;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.function.Predicate;
 
 public class BuscarFactura {
 
@@ -19,6 +23,8 @@ public class BuscarFactura {
     @FXML private TableColumn<FacturaResumen, LocalDate> colFechaCobro;
     @FXML private TableColumn<FacturaResumen, Boolean> colCobrada;
     @FXML private TableColumn<FacturaResumen, Double> colTotal;
+    @FXML private TextField searchField;
+    @FXML private ComboBox<String> searchTypeCombo;
 
     private final ObservableList<FacturaResumen> listaFacturas = FXCollections.observableArrayList();
 
@@ -26,6 +32,10 @@ public class BuscarFactura {
     public void initialize() {
         configurarTabla();
         cargarFacturas();
+
+        // Inicializar ComboBox
+        searchTypeCombo.setItems(FXCollections.observableArrayList("Todos", "Cliente"));
+        searchTypeCombo.setValue("Todos");
     }
 
     private void configurarTabla() {
@@ -115,6 +125,45 @@ public class BuscarFactura {
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void handleSearch() {
+        String searchText = searchField.getText().toLowerCase();
+        String searchType = (searchTypeCombo.getValue() != null) ? searchTypeCombo.getValue() : "Todos";
+        filterFacturas(searchText, searchType);
+    }
+
+    @FXML
+    private void handleSearchButton() {
+        handleSearch();
+    }
+
+    @FXML
+    private void handleClearSearch() {
+        searchField.clear();
+        searchTypeCombo.setValue("Todos");
+        tablaFacturas.setItems(listaFacturas);
+    }
+
+    private void filterFacturas(String searchText, String searchType) {
+        ObservableList<FacturaResumen> filteredList = FXCollections.observableArrayList();
+        Predicate<FacturaResumen> predicate = factura -> {
+            if (searchType.equals("Todos")) {
+                return factura.getNombreCliente().toLowerCase().contains(searchText);
+            } else if (searchType.equals("Cliente")) {
+                return factura.getNombreCliente().toLowerCase().contains(searchText);
+            }
+            return false;
+        };
+
+        for (FacturaResumen factura : listaFacturas) {
+            if (predicate.test(factura)) {
+                filteredList.add(factura);
+            }
+        }
+
+        tablaFacturas.setItems(filteredList);
     }
 
     // Clase para almacenar los datos resumidos de las facturas
