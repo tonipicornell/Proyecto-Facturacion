@@ -388,8 +388,9 @@ public class CrearFactura {
 
     private void guardarLineasFactura(Connection conn, int idFactura) throws SQLException {
         String sql = "INSERT INTO lineasFacturasClientes (numeroFacturaCliente, idArticulo, " +
-                "descripcionArticulo, codigoArticulo, pvpArticulo, ivaArticulo, " +
-                "idProveedorArticulo, nombreProveedorArticulo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "descripcionArticulo, codigoArticulo, pvpArticulo, cantidad, descuento, importe, " +  // Added these fields
+                "ivaArticulo, idProveedorArticulo, nombreProveedorArticulo) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";  // Added 3 more placeholders
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (LineaFactura linea : lineasFactura) {
@@ -398,9 +399,12 @@ public class CrearFactura {
                 pstmt.setString(3, linea.getDescripcion());
                 pstmt.setString(4, linea.getCodigoArticulo());
                 pstmt.setDouble(5, linea.getPrecio());
-                pstmt.setDouble(6, linea.getPorcentajeIVA());
-                pstmt.setInt(7, linea.getIdProveedor());
-                pstmt.setString(8, obtenerNombreProveedor(conn, linea.getIdProveedor()));
+                pstmt.setDouble(6, linea.getCantidad());       // Add cantidad parameter
+                pstmt.setDouble(7, linea.getDescuento());      // Add descuento parameter
+                pstmt.setDouble(8, linea.getImporte());        // Add importe parameter
+                pstmt.setDouble(9, linea.getPorcentajeIVA());
+                pstmt.setInt(10, linea.getIdProveedor());
+                pstmt.setString(11, obtenerNombreProveedor(conn, linea.getIdProveedor()));
                 pstmt.executeUpdate();
             }
         }
