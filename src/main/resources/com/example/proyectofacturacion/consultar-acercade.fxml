@@ -2,25 +2,43 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.ConsultarAcercade">
-    <children>
-        <VBox alignment="CENTER" spacing="10" prefWidth="400" prefHeight="300">
-            <Label text="FACTURATION TONIS" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-            <TextArea editable="false" wrapText="true" prefWidth="350" prefHeight="150">
-                <text>
-                    Facturation Tonis es un programa de gestión para una empresa, que incluye:
-                    creación, modificación y observación de clientes, proveedores, artículos, trabajadores,
-                    comerciales y distribuidores.
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      alignment="TOP_CENTER"
+      style="-fx-background-color: white;"
+      maxHeight="-Infinity"
+      maxWidth="-Infinity"
+      minHeight="-Infinity"
+      minWidth="-Infinity"
+      prefHeight="400.0"
+      prefWidth="600.0">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
 
-                    Además, incluye la creación y observación de las facturas y rectificativas.
+    <Label text="FACTURATION TONIS" style="-fx-font-weight: bold; -fx-font-size: 24px;"/>
 
-                    También permite consultar el tipo de familias del artículo y el tipo de IVA de cada país de la UE.
-                </text>
-            </TextArea>
-            <Label text="Contacto: apicornellperdigon@cifpfbmoll.eu" style="-fx-font-size: 14px;" />
-            <Button text="Cerrar" onAction="#handleClose" />
+    <TitledPane text="1. ¿QUÉ ÉS FACTURATION TONIS?" expanded="true">
+        <VBox spacing="5">
+            <Label wrapText="true" text="Facturation Tonis es un programa de gestión para una empresa, que incluye: creación, modificación y observación de los clientes, proveedores, artículos, trabajadores, comerciales y distribuidores."/>
+            <Label wrapText="true" text="Además, incluye la creación y observación de las facturas y rectificativas."/>
+            <Label wrapText="true" text="Por otro lado, podemos consultar el tipo de familias del artículo y el tipo de IVA (Impuesto sobre el Valor Añadido) de cada país de la UE (Unión Europea)."/>
         </VBox>
-    </children>
-</AnchorPane>
+    </TitledPane>
+
+    <TitledPane text="2. CONTACTO" expanded="true">
+        <VBox spacing="5">
+            <Label wrapText="true" text="Si tiene alguna duda o problema, contacte al soporte del programa de la siguiente forma: escriba un correo electrónico a la siguiente dirección: apicornellperdigon@cifpfbmoll.eu."/>
+        </VBox>
+    </TitledPane>
+
+    <Separator/>
+
+    <HBox alignment="CENTER">
+        <Label text="© 2025 Facturation Tonis - Todos los derechos reservados"/>
+    </HBox>
+</VBox>
