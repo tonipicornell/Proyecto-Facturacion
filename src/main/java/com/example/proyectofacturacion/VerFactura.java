@@ -37,7 +37,6 @@ public class VerFactura {
 
     // Botones de acción
     @FXML private Button btnBuscar, btnLimpiarFiltros, btnVerDetalle, btnImprimir, btnExportar;
-    @FXML private Button btnEliminarFactura, btnModificarFactura;
 
     // Listas para los ComboBox
     private final ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
@@ -269,8 +268,6 @@ public class VerFactura {
         btnVerDetalle.setDisable(false);
         btnImprimir.setDisable(false);
         btnExportar.setDisable(false);
-        btnEliminarFactura.setDisable(false);
-        btnModificarFactura.setDisable(false);
     }
 
     private void limpiarDetalleFactura() {
@@ -298,8 +295,6 @@ public class VerFactura {
         btnVerDetalle.setDisable(true);
         btnImprimir.setDisable(true);
         btnExportar.setDisable(true);
-        btnEliminarFactura.setDisable(true);
-        btnModificarFactura.setDisable(true);
     }
 
     private void cargarLineasFactura(int numeroFactura) {
