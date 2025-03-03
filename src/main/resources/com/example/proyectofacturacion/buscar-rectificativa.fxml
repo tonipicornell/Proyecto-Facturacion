@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.BuscarRectificativa">
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="15" right="15" bottom="10" left="15"/>
+            </padding>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Búsqueda de Facturas Rectificativas" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+            </HBox>
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="NEVER" minWidth="100"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="150"/>
+                    <ColumnConstraints hgrow="NEVER" minWidth="100"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="150"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints vgrow="NEVER"/>
+                    <RowConstraints vgrow="NEVER"/>
+                </rowConstraints>
+
+                <!-- Primera fila -->
+                <Label text="Nº Rectificativa:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="txtNumeroRectificativa" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Cliente:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <ComboBox fx:id="comboClientes" GridPane.columnIndex="3" GridPane.rowIndex="0" maxWidth="Infinity"/>
+
+                <!-- Segunda fila -->
+                <Label text="Fecha desde:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <DatePicker fx:id="dateFechaDesde" GridPane.columnIndex="1" GridPane.rowIndex="1" maxWidth="Infinity"/>
+
+                <Label text="Fecha hasta:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <DatePicker fx:id="dateFechaHasta" GridPane.columnIndex="3" GridPane.rowIndex="1" maxWidth="Infinity"/>
+            </GridPane>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="btnBuscar" text="Buscar" prefWidth="120" styleClass="button-primary"/>
+                <Button fx:id="btnLimpiar" text="Limpiar" prefWidth="120"/>
+            </HBox>
+
+            <Separator/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="0" right="15" bottom="15" left="15"/>
+            </padding>
+
+            <TableView fx:id="tablaRectificativas" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNumero" text="Nº Rectificativa" prefWidth="100"/>
+                    <TableColumn fx:id="colFecha" text="Fecha" prefWidth="100"/>
+                    <TableColumn fx:id="colCliente" text="Cliente" prefWidth="200"/>
+                    <TableColumn fx:id="colFacturaOriginal" text="Factura Original" prefWidth="120"/>
+                    <TableColumn fx:id="colMotivo" text="Motivo" prefWidth="150"/>
+                    <TableColumn fx:id="colBaseImponible" text="Base Imponible" prefWidth="120"/>
+                    <TableColumn fx:id="colIVA" text="IVA" prefWidth="80"/>
+                    <TableColumn fx:id="colTotal" text="Total" prefWidth="100"/>
+                </columns>
+            </TableView>
+
+            <TitledPane text="Detalles de la Rectificativa" expanded="true" collapsible="true">
+                <VBox spacing="10">
+                    <TitledPane text="Observaciones" expanded="true" collapsible="true">
+                        <TextArea fx:id="txtObservaciones" editable="false" prefHeight="80" wrapText="true"/>
+                    </TitledPane>
+
+                    <TitledPane text="Líneas de Rectificativa" expanded="true" collapsible="true">
+                        <TableView fx:id="tablaLineasRectificativa" prefHeight="200">
+                            <columns>
+                                <TableColumn fx:id="colCodigo" text="Código" prefWidth="80"/>
+                                <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="200"/>
+                                <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80"/>
+                                <TableColumn fx:id="colPrecio" text="Precio" prefWidth="80"/>
+                                <TableColumn fx:id="colDescuento" text="Descuento" prefWidth="80"/>
+                                <TableColumn fx:id="colImporte" text="Importe" prefWidth="80"/>
+                                <TableColumn fx:id="colIVALinea" text="IVA %" prefWidth="80"/>
+                            </columns>
+                        </TableView>
+                    </TitledPane>
+                </VBox>
+            </TitledPane>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="btnEditar" text="Editar" prefWidth="120" disable="true"/>
+                <Button fx:id="btnImprimir" text="Imprimir" prefWidth="120" disable="true"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

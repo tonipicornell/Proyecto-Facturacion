@@ -368,6 +368,27 @@ public class HelloController {
     }
 
     @FXML
+    private void handleBuscarRectificativa(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("buscar-rectificativa.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Buscar Rectificativa ");
+            stage.setScene(new Scene(root, 850, 750));
+
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleDatosEmpresa(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("datos-empresa.fxml"));

@@ -54,7 +54,7 @@
         <Menu id="rectificativas" mnemonicParsing="false" text="Rectificativas">
           <items>
             <MenuItem id="crear_rectificativa" mnemonicParsing="false" text="Crear Rectificativa" onAction="#handleCrearRectificativa"/>
-            <MenuItem id="ver_rectificativa" mnemonicParsing="false" text="Ver Rectificativa" />
+            <MenuItem id="ver_rectificativa" mnemonicParsing="false" text="Ver Rectificativa" onAction="#handleBuscarRectificativa"/>
           </items>
         </Menu>
         <Menu id="listados" mnemonicParsing="false" text="Listados">
