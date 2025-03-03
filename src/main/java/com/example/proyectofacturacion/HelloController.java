@@ -349,7 +349,7 @@ public class HelloController {
     @FXML
     private void handleBuscarFactura(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("buscar-factura.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ver-factura.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -370,7 +370,7 @@ public class HelloController {
     @FXML
     private void handleBuscarRectificativa(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("buscar-rectificativa.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ver-rectificativa.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();

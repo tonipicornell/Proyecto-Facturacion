@@ -7,9 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.Optional;
 
-public class BuscarFactura {
+public class VerFactura {
 
     // Criterios de búsqueda
     @FXML private TextField txtNumeroFactura;

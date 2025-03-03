@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.BuscarFactura">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.VerFactura">
     <top>
         <VBox spacing="10">
             <padding>
