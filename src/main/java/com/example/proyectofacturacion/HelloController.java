@@ -469,6 +469,29 @@ public class HelloController {
     }
 
     @FXML
+    private void handleManualUsuario(ActionEvent event) {
+        try {
+            // Cargar el archivo FXML de la vista Crear Cliente
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("manual-usuario.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena y ventana
+            Stage stage = new Stage();
+            stage.setTitle("Manual de usuario");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+
+            // Añadir la nueva ventana a la lista
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleAcercaDe(ActionEvent event) {
         try {
             // Cargar el archivo FXML de la vista Crear Cliente
