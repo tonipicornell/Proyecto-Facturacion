@@ -221,7 +221,7 @@
 
                                     <TitledPane text="6.2. Acerca de" expanded="false">
                                         <content>
-                                            <Label text="Nos aparece la información del programa y en que consiste dicho programa. Además de la poder contactar con el soporte en caso de problemas y dudas." wrapText="true" />
+                                            <Label text="Nos aparece la información del programa y como funciona dicho programa. Además de la poder contactar con el soporte en caso de problemas y dudas." wrapText="true" />
                                         </content>
                                     </TitledPane>
                                 </VBox>
