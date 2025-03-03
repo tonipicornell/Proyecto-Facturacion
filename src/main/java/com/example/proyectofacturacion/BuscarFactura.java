@@ -14,13 +14,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Predicate;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import java.io.IOException;
-
 public class BuscarFactura {
 
     @FXML private TableView<FacturaResumen> tablaFacturas;
