@@ -408,6 +408,29 @@ public class HelloController {
         }
     }
 
+    @FXML
+    private void handleAcercaDe(ActionEvent event) {
+        try {
+            // Cargar el archivo FXML de la vista Crear Cliente
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("consultar-acercade.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena y ventana
+            Stage stage = new Stage();
+            stage.setTitle("Acerca de");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setResizable(false);
+
+            // Añadir la nueva ventana a la lista
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Método para cerrar todas las ventanas secundarias
     public void closeAllSecondaryWindows() {
         for (Stage stage : secondaryStages) {
