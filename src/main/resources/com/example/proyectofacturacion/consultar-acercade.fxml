@@ -20,7 +20,7 @@
                 </text>
             </TextArea>
             <Label text="Contacto: apicornellperdigon@cifpfbmoll.eu" style="-fx-font-size: 14px;" />
-
+            <Button text="Cerrar" onAction="#handleClose" />
         </VBox>
     </children>
 </AnchorPane>
