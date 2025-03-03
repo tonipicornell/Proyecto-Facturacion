@@ -60,8 +60,8 @@
         <Menu id="listados" mnemonicParsing="false" text="Listados">
           <items>
             <MenuItem id="listar_informacion_cliente" mnemonicParsing="false" text="Listar información de clientes" onAction="#handleListarClientes"/>
-            <MenuItem id="listar_articulo" mnemonicParsing="false" text="Artículos" onAction="#handleListarArticulos"/>
-            <MenuItem id="listar_proveedores" mnemonicParsing="false" text="Proveedores" onAction="#handleListarProveedores"/>
+            <MenuItem id="listar_articulo" mnemonicParsing="false" text="Listar información de artículos" onAction="#handleListarArticulos"/>
+            <MenuItem id="listar_proveedores" mnemonicParsing="false" text="Listar información de proveedores" onAction="#handleListarProveedores"/>
           </items>
         </Menu>
         <Menu id="configuracion" mnemonicParsing="false" text="Configuración">
