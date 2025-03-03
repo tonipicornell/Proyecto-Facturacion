@@ -232,15 +232,4 @@
             </content>
         </ScrollPane>
     </center>
-
-    <bottom>
-        <HBox alignment="CENTER" spacing="10">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10" />
-            </padding>
-            <children>
-                <Label text="© Facturation Toni - 2025" />
-            </children>
-        </HBox>
-    </bottom>
 </BorderPane>
