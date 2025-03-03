@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofacturacion.ListarProveedores">
+    <top>
+        <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Listado de Proveedores" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER_RIGHT">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#actualizarLista" text="Actualizar">
+                            <HBox.margin>
+                                <Insets right="10.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+    </top>
+    <center>
+        <TableView fx:id="tablaProveedores" prefHeight="500.0" prefWidth="980.0" BorderPane.alignment="CENTER">
+            <columns>
+                <TableColumn fx:id="colNombre" prefWidth="120.0" text="Nombre" />
+                <TableColumn fx:id="colDireccion" prefWidth="150.0" text="Dirección" />
+                <TableColumn fx:id="colCP" prefWidth="60.0" text="CP" />
+                <TableColumn fx:id="colPoblacion" prefWidth="90.0" text="Población" />
+                <TableColumn fx:id="colProvincia" prefWidth="90.0" text="Provincia" />
+                <TableColumn fx:id="colPais" prefWidth="80.0" text="País" />
+                <TableColumn fx:id="colCIF" prefWidth="80.0" text="CIF" />
+                <TableColumn fx:id="colTelefono" prefWidth="90.0" text="Teléfono" />
+                <TableColumn fx:id="colEmail" prefWidth="100.0" text="Email" />
+                <TableColumn fx:id="colIBAN" prefWidth="90.0" text="IBAN" />
+                <TableColumn fx:id="colContacto" prefWidth="110.0" text="Contacto" />
+            </columns>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </TableView>
+    </center>
+</BorderPane>

@@ -20,9 +20,9 @@
 
     <Label text="FACTURATION TONIS" style="-fx-font-weight: bold; -fx-font-size: 24px;"/>
 
-    <TitledPane text="1. ¿QUÉ ÉS FACTURATION TONIS?" expanded="true">
+    <TitledPane text="1. ¿QUÉ ÉS FACTURATION TONI?" expanded="true">
         <VBox spacing="5">
-            <Label wrapText="true" text="Facturation Tonis es un programa de gestión para una empresa, que incluye: creación, modificación y observación de los clientes, proveedores, artículos, trabajadores, comerciales y distribuidores."/>
+            <Label wrapText="true" text="Facturation Toni es un programa de gestión para una empresa, que incluye: creación, modificación y observación de los clientes, proveedores, artículos, trabajadores, comerciales y distribuidores."/>
             <Label wrapText="true" text="Además, incluye la creación y observación de las facturas y rectificativas."/>
             <Label wrapText="true" text="Por otro lado, podemos consultar el tipo de familias del artículo y el tipo de IVA (Impuesto sobre el Valor Añadido) de cada país de la UE (Unión Europea)."/>
         </VBox>

@@ -389,6 +389,66 @@ public class HelloController {
     }
 
     @FXML
+    private void handleListarClientes(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("listar-clientes.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Listar clientes");
+            stage.setScene(new Scene(root, 1050, 600));
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleListarArticulos(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("listar-articulos.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Listar articulos");
+            stage.setScene(new Scene(root, 1150, 600));
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleListarProveedores(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("listar-proveedores.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Listar proveedores");
+            stage.setScene(new Scene(root, 1050, 600));
+            stage.setResizable(false);
+
+            secondaryStages.add(stage);
+
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleDatosEmpresa(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("datos-empresa.fxml"));

@@ -59,9 +59,9 @@
         </Menu>
         <Menu id="listados" mnemonicParsing="false" text="Listados">
           <items>
-            <MenuItem id="listar_informacion_cliente" mnemonicParsing="false" text="Listar información de clientes" />
-            <MenuItem id="listar_articulo" mnemonicParsing="false" text="Artículos" />
-            <MenuItem id="listar_proveedores" mnemonicParsing="false" text="Proveedores" />
+            <MenuItem id="listar_informacion_cliente" mnemonicParsing="false" text="Listar información de clientes" onAction="#handleListarClientes"/>
+            <MenuItem id="listar_articulo" mnemonicParsing="false" text="Artículos" onAction="#handleListarArticulos"/>
+            <MenuItem id="listar_proveedores" mnemonicParsing="false" text="Proveedores" onAction="#handleListarProveedores"/>
           </items>
         </Menu>
         <Menu id="configuracion" mnemonicParsing="false" text="Configuración">
